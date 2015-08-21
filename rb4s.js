@@ -24,5 +24,5 @@
     };
 
     // Register the extension
-    ScratchExtensions.register('My first extension', descriptor, ext);
+    ScratchExtensions.register('RedBot For Scratch', descriptor, ext);
 })({});
