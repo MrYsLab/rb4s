@@ -63,7 +63,7 @@
             [' ', 'Set brake for %m.motor motor', "brake", "Left"],
             [' ', 'LED 13 %m.ledState', 'ledCcontrol' ,'On'],
             [' ', 'Play Tone  %n Hz  %n ms', 'playTone', '1000', '500'],
-            [' ', 'Clear Encoder Count'],
+            [' ', 'Reset Encoder Count'],
             ['h', "When User Button Is Pushed", 'hatPushButton'],
             ['h', 'When %m.bumper bumper activates', 'bumpers', 'Left'],
             ['h', 'When tap sensor activates', 'tap'],
