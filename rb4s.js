@@ -24,11 +24,8 @@
 
     };
 
-    ext.bumpers = function() {
 
-    };
-
-    ext.axis = function() {
+    ext.accel = function() {
 
     };
 
@@ -52,25 +49,29 @@
 
     };
 
+    ext.override = function() {
+
+    };
+
 
 
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
             // Block type, block name, function name
-            [' ', 'Move %m.motor wheel %m.operation. Speed = %m.speeds ', 'motorControl', 'Left', 'Forward', '1'],
-            [' ', 'Set coast for %m.motor motor', "coast", "Left"],
-            [' ', 'Set brake for %m.motor motor', "brake", "Left"],
-            [' ', 'LED 13 %m.ledState', 'ledCcontrol' ,'On'],
-            [' ', 'Play Tone  %n Hz  %n ms', 'playTone', '1000', '500'],
+            [' ', 'Move %m.motor wheel %m.operation. Speed = %m.speeds ',   'motorControl', 'Left', 'Forward', '1'],
+            [' ', 'Set coast for %m.motor motor',                           'coast', 'Left'],
+            [' ', 'Set brake for %m.motor motor',                           'brake', 'Left'],
+            [' ', 'LED 13 %m.ledState',                                     'ledCcontrol' ,'On'],
+            [' ', 'Play Tone  %n Hz  %n ms',                                'playTone', '1000', '500'],
             [' ', 'Reset Encoder Count'],
-            ['h', "When User Button Is Pushed", 'hatPushButton'],
-            ['h', 'When %m.bumper bumper activates', 'bumpers', 'Left'],
-            ['h', 'When tap sensor activates', 'tap'],
-            ['h', 'When encoder count > %n,', 'encoder'],
-            ['r', 'Line Sensor %m.lineFollower', 'lineFollower', '1'],
-            ['r', 'Accelerometer %m.axis axis:' , 'accel', 'X'],
-            [' ', 'Pin Mode Override: Pin %m.pin Mode: %m.mode', 'override', '3', 'Output']
+            ['h', 'When User Button Is Pushed',                             'hatPushButton'],
+            ['h', 'When %m.bumper bumper activates',                        'bumpers', 'Left'],
+            ['h', 'When tap sensor activates',                              'tap'],
+            ['h', 'When encoder count > %n,',                               'encoder'],
+            ['r', 'Line Sensor %m.lineFollower',                            'lineFollower', '1'],
+            ['r', 'Accelerometer %m.axis axis:' ,                           'accel', 'X'],
+            [' ', 'Pin Mode Override: Pin %m.pin Mode: %m.mode',            'override', '3', 'Output']
         ],
         menus: {
             motor: ['Left', 'Right'],
