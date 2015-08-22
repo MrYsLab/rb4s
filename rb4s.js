@@ -68,7 +68,7 @@
             [' ', 'Set brake for %m.motor motor',                           'brake', 'Left'],
             [' ', 'LED 13 %m.ledState',                                     'ledCcontrol' ,'On'],
             [' ', 'Play Tone  %n Hz  %n ms',                                'playTone', '1000', '500'],
-            [' ', 'Reset Encoder Count',                                    'resetCount'],
+            [' ', 'Reset Encoder Count %n',                                    'resetCount', '0'],
             ['h', 'When User Button Is Pushed',                             'hatPushButton'],
             ['h', 'When %m.bumper bumper activates',                        'bumpers', 'Left'],
             ['h', 'When tap sensor activates',                              'tap'],
@@ -92,7 +92,7 @@
     };
 
     // Register the extension
-    ScratchExtensions.register('RedBot For Scratch', descriptor, ext);
+    ScratchExtensions.register('RedBot For ScratchX', descriptor, ext);
 })({});
 
 
