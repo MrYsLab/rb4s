@@ -47,8 +47,8 @@
             [' ', 'LED %m.ledState', 'ledCcontrol' ,'On'],
             [' ', 'Play Tone  %n Hz  %n ms', 'playTone', '1000', '500'],
             ['r', 'Push Button', 'getPushButton'],
-            ['r', 'Line Follower m.lineFollower', 'lineFollower'],
-            ['r', '%m.bumper Bump', 'bump'],
+            ['r', 'Line Follower %m.lineFollower', 'lineFollower'],
+            ['r', '%m.bumper Bumper', 'bump','Left'],
             ['r', 'Accelerometer Axis: %m.axis', 'accel', 'X'],
             ['r', 'Encoder Tick Count', 'encoder']
         ],
