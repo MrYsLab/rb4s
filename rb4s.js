@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js v.004');
+    console.log('rb4sx.js v.005');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -27,7 +27,7 @@
         window.socket = new WebSocket("ws://127.0.0.1:9000");
 
 
-        socket.onopen = function () {
+        window.socket.onopen = function () {
 
             var msg = JSON.stringify({
                 "command": "ready"
@@ -41,7 +41,7 @@
 
         };
 
-        socket.onmessage = function (message) {
+        window.socket.onmessage = function (message) {
 
             var msg = JSON.parse(message.data);
             // console.log(message.data);
@@ -85,7 +85,7 @@
 
 
         //noinspection JSUnusedLocalSymbols
-        socket.onclose = function (e) {
+        window.socket.onclose = function (e) {
             console.log("Connection closed.");
             socket = null;
             isopen = false;
