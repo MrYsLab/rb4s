@@ -11,8 +11,8 @@
         return {status: 2, msg: 'Ready'};
     };
 
-    ext.motorControl = function() {
-        // Code that gets executed when the block is run
+    ext.motorControl = function(wheel, operation, speed) {
+        console.log('motor_control: ' + wheel + ' ' + operation + ' ' + speed)
     };
 
     ext.ledControl= function() {
