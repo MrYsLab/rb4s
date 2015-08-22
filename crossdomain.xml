@@ -2,5 +2,5 @@
   <site-control permitted-cross-domain-policies="master-only"/>
   <allow-access-from domain="scratchx.org"/>
   <allow-access-from domain="MrYsLab.github.io"/>
-  <allow-access-from domain="MrYsLab.github.io/rb4s">
+  <allow-access-from domain="MrYsLab.github.io/rb4s"/>
 </cross-domain-policy>
