@@ -65,12 +65,13 @@
             [' ', 'Play Tone  %n Hz  %n ms', 'playTone', '1000', '500'],
             [' ', 'Clear Encoder Count'],
             ['h', "When User Button Is Pushed", 'hatPushButton'],
-            ['h', 'When %m.bumper bumper activates,', 'bumpers', 'Left'],
-            ['h', 'When tap sensor activates,', 'tap'],
+            ['h', 'When %m.bumper bumper activates', 'bumpers', 'Left'],
+            ['h', 'When tap sensor activates', 'tap'],
             ['h', 'When encoder count > %n,', 'encoder'],
             ['r', 'Line Sensor %m.lineFollower', 'lineFollower', '1'],
             ['r', '%m.bumper Bumper', 'bump','Left'],
-            ['r', 'Accelerometer %m.axis axis:' , 'accel', 'X']
+            ['r', 'Accelerometer %m.axis axis:' , 'accel', 'X'],
+            [' ', 'Pin Mode Override: Pin %m.pin Mode: %m.mode', 'override', '3', 'Output']
         ],
         menus: {
             motor: ['Left', 'Right'],
@@ -79,7 +80,9 @@
             lineFollower: ['1', '2', '3'],
             bumper: ['Left', 'Right'],
             axis: ['X', 'Y', 'Z'],
-            speeds: ['1','2','3','4','5','6','7','8','9','10']
+            speeds: ['1','2','3','4','5','6','7','8','9','10'],
+            pin: ['2','3','4','5','6','7', '8', '9', '10','11', '12', '16' ],
+            mode: ['Output','PWM', 'Servo', 'SONAR']
         },
         url: 'http://MrYsLab.github.io/rb4s'
     };
