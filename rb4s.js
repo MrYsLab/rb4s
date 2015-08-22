@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js v.006');
+    console.log('rb4sx.js v.007');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -22,77 +22,78 @@
     var time_sample;
     var diff_time;
 
-    window.onload = function () {
-        console.log('loaded');
-        window.socket = new WebSocket("ws://127.0.0.1:9000");
+    ext.cnct = function () {
+        //window.onload = function () {
+            console.log('loaded');
+            window.socket = new WebSocket("ws://127.0.0.1:9000");
 
 
-        window.socket.onopen = function () {
+            window.socket.onopen = function () {
 
-            var msg = JSON.stringify({
-                "command": "ready"
-            });
+                var msg = JSON.stringify({
+                    "command": "ready"
+                });
 
-            window.socket.send(msg);
+                window.socket.send(msg);
 
-            console.log("Connected!");
-            isopen = true;
-
-
-        };
-
-        window.socket.onmessage = function (message) {
-
-            var msg = JSON.parse(message.data);
-            // console.log(message.data);
-            switch (msg['info']) {
-                case 'axis':
-                    var val = msg['data'];
-
-                    break;
-                case 'encoders':
-                    var left = msg['left'];
-                    var right = msg['right'];
-                    // console.log('left = ' + left + 'right = ' + right);
+                console.log("Connected!");
+                isopen = true;
 
 
-                    break;
-                case 'ir1':
+            };
 
-                    break;
-                case 'ir2':
+            window.socket.onmessage = function (message) {
 
-                    break;
-                case 'ir3':
+                var msg = JSON.parse(message.data);
+                // console.log(message.data);
+                switch (msg['info']) {
+                    case 'axis':
+                        var val = msg['data'];
 
-                    break;
-                case 'pl':
-                    // val = msg['data'];
-                    // $('#orientation').val(val);
-                    break;
-                case 'tap':
-
-                    break;
-                case 'l_bump':
-                    val = msg['data'];
-
-                    break;
-                case 'r_bump':
-
-                    break;
-            }
-        };
+                        break;
+                    case 'encoders':
+                        var left = msg['left'];
+                        var right = msg['right'];
+                        // console.log('left = ' + left + 'right = ' + right);
 
 
-        //noinspection JSUnusedLocalSymbols
-        window.socket.onclose = function (e) {
-            console.log("Connection closed.");
-            socket = null;
-            isopen = false;
-        };
+                        break;
+                    case 'ir1':
 
+                        break;
+                    case 'ir2':
+
+                        break;
+                    case 'ir3':
+
+                        break;
+                    case 'pl':
+                        // val = msg['data'];
+                        // $('#orientation').val(val);
+                        break;
+                    case 'tap':
+
+                        break;
+                    case 'l_bump':
+                        val = msg['data'];
+
+                        break;
+                    case 'r_bump':
+
+                        break;
+                }
+            };
+
+
+            //noinspection JSUnusedLocalSymbols
+            window.socket.onclose = function (e) {
+                console.log("Connection closed.");
+                socket = null;
+                isopen = false;
+            };
+
+        //};
     };
-
 
     // Cleanup function when the extension is unloaded
     ext._shutdown = function () {
@@ -181,6 +182,7 @@
     var descriptor = {
         blocks: [
             // Block type, block name, function name
+            [' ', 'Connect', 'cnct'],
             [' ', 'Move %m.motor wheel %m.operation. Speed = %m.speeds ', 'motorControl', 'Left', 'Forward', '1'],
             [' ', 'Set coast for %m.motor motor', 'coast', 'Left'],
             [' ', 'Set brake for %m.motor motor', 'brake', 'Left'],
