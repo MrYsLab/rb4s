@@ -57,7 +57,7 @@
             operation: ['Forward', 'Reverse', 'Coast', 'Brake'],
             ledState: ['On', 'Off'],
             lineFollower: ['1', '2', '3'],
-            bumper: ['Left', 'Right, Accelerometer'],
+            bumper: ['Left', 'Right', 'Accelerometer'],
             axis: ['X', 'Y', 'Z']
         },
         url: 'url=http://MrYsLab.github.io/rb4s'
