@@ -212,7 +212,7 @@
     };
 
     // Register the extension
-    ScratchExtensions.register('RedBot For ScratchX1', descriptor, ext);
+    ScratchExtensions.register('RedBot For ScratchX', descriptor, ext);
 })({});
 
 
