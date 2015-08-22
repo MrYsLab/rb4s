@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js v.001');
+    console.log('rb4sx.js v.002');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
