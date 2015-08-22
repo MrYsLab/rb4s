@@ -75,7 +75,8 @@
             ['h', 'When encoder count > %n,',                               'encoder'],
             ['r', 'Line Sensor %m.lineFollower',                            'lineFollower', '1'],
             ['r', 'Accelerometer %m.axis axis:' ,                           'accel', 'X'],
-            [' ', 'Pin Mode Override: Pin %m.pin Mode: %m.mode',            'override', '3', 'Output']
+            [' ', 'Pin Mode Override: Pin %m.pin Mode: %m.mode',            'override', '3', 'Output'],
+            ['r', 'Read Pin %m.pin',                                        'readPin', '3'],
         ],
         menus: {
             motor: ['Left', 'Right'],
