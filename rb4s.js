@@ -69,7 +69,6 @@
             ['h', 'When tap sensor activates', 'tap'],
             ['h', 'When encoder count > %n,', 'encoder'],
             ['r', 'Line Sensor %m.lineFollower', 'lineFollower', '1'],
-            ['r', '%m.bumper Bumper', 'bump','Left'],
             ['r', 'Accelerometer %m.axis axis:' , 'accel', 'X'],
             [' ', 'Pin Mode Override: Pin %m.pin Mode: %m.mode', 'override', '3', 'Output']
         ],
