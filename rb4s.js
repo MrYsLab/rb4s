@@ -52,7 +52,7 @@
     var descriptor = {
         blocks: [
             // Block type, block name, function name
-            [' ', 'Run %m.motor motor %m.operation ', 'motorControl', 'Left', 'Forward'],
+            [' ', ' %m.motor wheel move %m.operation speed = %m.speeds ', 'motorControl', 'Left', 'Forward', '1'],
             [' ', 'Coast %m.motor motor', "coast", "Left"],
             [' ', 'Brake %m.motor motor', "brake", "Left"],
             [' ', 'LED %m.ledState', 'ledCcontrol' ,'On'],
@@ -69,7 +69,8 @@
             ledState: ['On', 'Off'],
             lineFollower: ['1', '2', '3'],
             bumper: ['Left', 'Right', 'Accelerometer'],
-            axis: ['X', 'Y', 'Z']
+            axis: ['X', 'Y', 'Z'],
+            speeds: ['1','2','3','4','5','6','7','8','9','10']
         },
         url: 'http://MrYsLab.github.io/rb4s'
     };
