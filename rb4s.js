@@ -57,6 +57,13 @@
 
     };
 
+    ext.writePin = function() {
+
+    };
+
+    ext.readPin = function() {
+
+    };
 
 
     // Block and block menu descriptions
@@ -77,6 +84,7 @@
             ['r', 'Accelerometer %m.axis axis:' ,                           'accel', 'X'],
             [' ', 'Pin Mode Override: Pin %m.pin Mode: %m.mode',            'override', '3', 'Output'],
             ['r', 'Read Pin %m.pin',                                        'readPin', '3'],
+            ['r', 'Write Pin %m.pin: Value = %n',                           'writePin', '3', '0']
         ],
         menus: {
             motor: ['Left', 'Right'],
