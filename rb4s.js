@@ -11,19 +11,54 @@
         return {status: 2, msg: 'Ready'};
     };
 
-    ext.motor_control = function() {
+    ext.motorControl = function() {
         // Code that gets executed when the block is run
+    };
+
+    ext.ledControl= function() {
+
+    };
+
+    ext.getPushButton= function() {
+
+    };
+
+    ext.lineFollower= function() {
+
+    };
+
+    ext.bump = function() {
+
+    };
+
+    ext.axis = function() {
+
+    };
+
+    ext.encoder = function() {
+
     };
 
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
             // Block type, block name, function name
-            [' ', 'Motor Control motor: %m.motor operation: %m.operation', 'motor_control'],
+            [' ', '%m.motor motor operation: %m.operation', 'motorControl'],
+            [' ', 'LED %m.ledState', 'ledCcontrol'],
+            [' ', 'Play Tone  %n Hz  %n ms', 'playTone', '1000', '500']
+            ['r', 'Push Button', 'getPushButton'],
+            ['r', 'Line Follower m.lineFollower', 'lineFollower'],
+            ['r', '%m.bumper Bump', 'bump'],
+            ['r', 'Accelerometer Axis: %m.axis', 'accel'],
+            ['r', 'Encoder Tick Count', 'encoder']
         ],
         menus: {
-            motor: ['left', 'right'],
-            operation: ['forward', 'reverse', 'coast', 'brake']
+            motor: ['Left', 'Right'],
+            operation: ['Forward', 'Reverse', 'Coast', 'Brake'],
+            ledState: ['On', 'Off'],
+            lineFollower: ['1', '2', '3'],
+            bumper: ['Left', 'Right, Accelerometer'],
+            axis: ['X', 'Y', 'Z']
         },
         url: 'http://scratchx.org/?url=http://MrYsLab.github.io/rb4s'
     };
