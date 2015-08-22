@@ -22,7 +22,7 @@
     var time_sample;
     var diff_time;
 
-    //window.onload = function () {
+    window.onload = function () {
         window.socket = new WebSocket("ws://127.0.0.1:9000");
 
 
