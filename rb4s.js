@@ -40,8 +40,8 @@
     };
 
     ext.coast = function() {
-        ;
-    }
+
+    };
 
     ext.brake = function() {
 
