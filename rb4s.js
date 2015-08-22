@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js v.005');
+    console.log('rb4sx.js v.006');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -190,7 +190,8 @@
             ['h', 'When User Button Is Pushed', 'hatPushButton'],
             ['h', 'When %m.bumper bumper activates', 'bumpers', 'Left'],
             ['h', 'When tap sensor activates', 'tap'],
-            ['h', 'When encoder count > %n,', 'encoder'],
+            ['h', 'When encoder count > %n', 'encoder'],
+            ['r', 'Encoder Count', 'encCount'],
             ['r', 'Line Sensor %m.lineFollower', 'lineFollower', '1'],
             ['r', 'Accelerometer %m.axis axis:', 'accel', 'X'],
             [' ', 'Pin Mode Override: Pin %m.pin Mode: %m.mode', 'override', '3', 'Output'],
