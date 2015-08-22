@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js v.003');
+    console.log('rb4sx.js v.004');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -23,6 +23,7 @@
     var diff_time;
 
     window.onload = function () {
+        console.log('loaded');
         window.socket = new WebSocket("ws://127.0.0.1:9000");
 
 
@@ -90,7 +91,7 @@
             isopen = false;
         };
 
-    //};
+    };
 
 
     // Cleanup function when the extension is unloaded
