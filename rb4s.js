@@ -43,13 +43,13 @@
     var descriptor = {
         blocks: [
             // Block type, block name, function name
-            [' ', '%m.motor motor operation: %m.operation', 'motorControl'],
-            [' ', 'LED %m.ledState', 'ledCcontrol'],
-            [' ', 'Play Tone  %n Hz  %n ms', 'playTone', '1000', '500']
+            [' ', 'Set %m.motor motor %m.operation', 'motorControl', 'Left', 'Forward'],
+            [' ', 'LED %m.ledState', 'ledCcontrol' ,'On'],
+            [' ', 'Play Tone  %n Hz  %n ms', 'playTone', '1000', '500'],
             ['r', 'Push Button', 'getPushButton'],
             ['r', 'Line Follower m.lineFollower', 'lineFollower'],
             ['r', '%m.bumper Bump', 'bump'],
-            ['r', 'Accelerometer Axis: %m.axis', 'accel'],
+            ['r', 'Accelerometer Axis: %m.axis', 'accel', 'X'],
             ['r', 'Encoder Tick Count', 'encoder']
         ],
         menus: {
