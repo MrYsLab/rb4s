@@ -60,7 +60,7 @@
             bumper: ['Left', 'Right, Accelerometer'],
             axis: ['X', 'Y', 'Z']
         },
-        url: 'http://scratchx.org/?url=http://MrYsLab.github.io/rb4s'
+        url: 'url=http://MrYsLab.github.io/rb4s'
     };
 
     // Register the extension
