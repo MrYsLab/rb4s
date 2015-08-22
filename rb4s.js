@@ -19,9 +19,6 @@
 
     };
 
-    ext.getPushButton= function() {
-
-    };
 
     ext.lineFollower= function() {
 
@@ -66,12 +63,12 @@
             [' ', 'Set brake for %m.motor motor', "brake", "Left"],
             [' ', 'LED 13 %m.ledState', 'ledCcontrol' ,'On'],
             [' ', 'Play Tone  %n Hz  %n ms', 'playTone', '1000', '500'],
+            [' ', 'Clear Encoder Count'],
             ['h', "When User Button Is Pushed", 'hatPushButton'],
-            ['r', 'Push Button', 'getPushButton'],
-            ['h', 'When %m.bumper activates,', 'bumpers', 'Left'],
+            ['h', 'When %m.bumper bumper activates,', 'bumpers', 'Left'],
             ['h', 'When tap sensor activates,', 'tap'],
+            ['h', 'When encoder count > %n,', 'encoder'],
             ['r', 'Line Sensor %m.lineFollower', 'lineFollower', '1'],
-            ['r', 'Encoder Tick Count', 'encoder'],
             ['r', '%m.bumper Bumper', 'bump','Left'],
             ['r', 'Accelerometer %m.axis axis:' , 'accel', 'X']
         ],
