@@ -52,10 +52,9 @@
     var descriptor = {
         blocks: [
             // Block type, block name, function name
-            [' ', ' %m.motor wheel move %m.operation speed = %m.speeds ', 'motorControl', 'Left', 'Forward', '1'],
-            [' ', 'Coast %m.motor motor', "coast", "Left"],
-            [' ', 'Brake %m.motor motor', "brake", "Left"],
-            [' ', 'Hello'],
+            [' ', 'Move %m.motor wheel %m.operation. Speed = %m.speeds ', 'motorControl', 'Left', 'Forward', '1'],
+            [' ', 'Set coast for %m.motor motor', "coast", "Left"],
+            [' ', 'Set brake for %m.motor motor', "brake", "Left"],
             [' ', 'LED %m.ledState', 'ledCcontrol' ,'On'],
             [' ', 'Play Tone  %n Hz  %n ms', 'playTone', '1000', '500'],
             ['r', 'Push Button', 'getPushButton'],
