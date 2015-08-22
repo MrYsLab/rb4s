@@ -46,73 +46,38 @@
             // console.log(message.data);
             switch (msg['info']) {
                 case 'axis':
-                    var xx = msg['x'];
-                    var yy = msg['y'];
-                    var zz = msg['z'];
+                    var val = msg['data'];
 
-                    Window.vprogressx.value = xx;
-                    Window.vprogressy.value = yy;
-                    Window.vprogressz.value = zz;
-
-                    Window.vprogressx.draw();
-                    Window.vprogressy.draw();
-                    Window.vprogressz.draw();
                     break;
                 case 'encoders':
                     var left = msg['left'];
                     var right = msg['right'];
                     // console.log('left = ' + left + 'right = ' + right);
-                    Window.gauge4.value = right;
-                    Window.gauge4.draw();
-                    Window.gauge2.value = left;
-                    Window.gauge2.draw();
+
 
                     break;
                 case 'ir1':
-                    val = msg['data'];
-                    $('#ir1').val(val);
+
                     break;
                 case 'ir2':
-                    val = msg['data'];
-                    $('#ir2').val(val);
+
                     break;
                 case 'ir3':
-                    var val = msg['data'];
-                    $('#ir3').val(val);
+
                     break;
                 case 'pl':
                     // val = msg['data'];
                     // $('#orientation').val(val);
                     break;
                 case 'tap':
-                    val = msg['data'];
-                    if (val) {
-                        var vstring = "Bumped";
-                    }
-                    else
-                        vstring = "Accelerometer";
 
-                    $('#abump').val(vstring);
                     break;
                 case 'l_bump':
                     val = msg['data'];
-                    if (val) {
-                        vstring = "Bumped";
-                    }
-                    else
-                        vstring = "Left Bumper";
 
-                    $('#lbump').val(vstring);
                     break;
                 case 'r_bump':
-                    val = msg['data'];
-                    if (val) {
-                        vstring = "Bumped";
-                    }
-                    else
-                        vstring = "Right Bumper";
 
-                    $('#rbump').val(vstring);
                     break;
             }
         };
@@ -130,6 +95,11 @@
 
     // Cleanup function when the extension is unloaded
     ext._shutdown = function () {
+        var msg = JSON.stringify({
+            "command": "shutdown"
+        });
+
+        window.socket.send(msg);
     };
 
     // Status reporting code
@@ -139,7 +109,7 @@
     };
 
     ext.motorControl = function (wheel, operation, speed) {
-        console.log('motor_control: ' + wheel + ' ' + operation + ' ' + speed)
+        console.log('motor_control: ' + wheel + ' ' + operation + ' ' + speed);
 
         var msg = JSON.stringify({
             "command": "motors", "left_command": wheel, "operation": operation, "speed": speed
@@ -166,13 +136,20 @@
 
     };
 
-    ext.coast = function () {
-
+    ext.coast = function (motor) {
+        var msg = JSON.stringify({
+            "command": coast, 'motor': motor
+        });
+        window.socket.send(msg);
     };
 
-    ext.brake = function () {
-
+    ext.brake = function (motor) {
+        var msg = JSON.stringify({
+            "command": brake, 'motor': motor
+        });
+        window.socket.send(msg);
     };
+
 
     ext.hatPushButton = function () {
 
@@ -206,7 +183,7 @@
             [' ', 'Move %m.motor wheel %m.operation. Speed = %m.speeds ', 'motorControl', 'Left', 'Forward', '1'],
             [' ', 'Set coast for %m.motor motor', 'coast', 'Left'],
             [' ', 'Set brake for %m.motor motor', 'brake', 'Left'],
-            [' ', 'LED 13 %m.ledState', 'ledCcontrol', 'On'],
+            [' ', 'LED 13 %m.ledState', 'ledControl', 'On'],
             [' ', 'Play Tone  %n Hz  %n ms', 'playTone', '1000', '500'],
             [' ', 'Reset Encoder Count', 'resetCount'],
             ['h', 'When User Button Is Pushed', 'hatPushButton'],
