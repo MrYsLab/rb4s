@@ -50,7 +50,7 @@
             ['r', 'Line Follower %m.lineFollower', 'lineFollower', '1'],
             ['r', 'Encoder Tick Count', 'encoder'],
             ['r', '%m.bumper Bumper', 'bump','Left'],
-            ['r', 'Accelerometer Axis: %m.axis', 'accel', 'X']
+            ['r', 'Accelerometer %m.axis axis:' , 'accel', 'X']
         ],
         menus: {
             motor: ['Left', 'Right'],
