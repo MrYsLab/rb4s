@@ -55,6 +55,7 @@
             [' ', ' %m.motor wheel move %m.operation speed = %m.speeds ', 'motorControl', 'Left', 'Forward', '1'],
             [' ', 'Coast %m.motor motor', "coast", "Left"],
             [' ', 'Brake %m.motor motor', "brake", "Left"],
+            [' ', 'Hello'],
             [' ', 'LED %m.ledState', 'ledCcontrol' ,'On'],
             [' ', 'Play Tone  %n Hz  %n ms', 'playTone', '1000', '500'],
             ['r', 'Push Button', 'getPushButton'],
