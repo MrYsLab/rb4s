@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js alpha_008');
+    console.log('rb4sx.js alpha_009');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -107,7 +107,6 @@
     // Status reporting code
     // Use this to report missing hardware, plugin or unsupported browser
     ext._getStatus = function () {
-        alert('get status called');
         return {status: 2, msg: 'Ready'};
     };
 
