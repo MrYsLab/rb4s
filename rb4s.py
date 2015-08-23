@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 import asyncio
 import json
+import webbrowser
 
 from autobahn.asyncio.websocket import WebSocketServerProtocol, \
     WebSocketServerFactory
@@ -122,7 +123,7 @@ if __name__ == '__main__':
     new = 2
 
     url = "http://scratchx.org/?url=http://MrYsLab.github.io/rb4s/rb4s.js"
-    # webbrowser.open(url, new=new)
+    webbrowser.open(url, new=new)
 
     try:
         while True:
