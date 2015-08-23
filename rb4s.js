@@ -3,84 +3,86 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js alpha_019');
+    console.log('rb4sx.js alpha_020');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
     // Variable is set by user through a Scratch command block
     var debugLevel = 2;
 
-    var device = null;
+    //var device = null;
     var socket = null;
     var isopen = false;
+
+    var connected = false;
 
     // line sensor registers
     var lineSensor1 = 0;
     var lineSensor2 = 0;
     var lineSensor3 = 0;
 
-    var t, z;
+    //var t, z;
 
-    var d = new Date();
-    var start_time = d.getTime();
+    //var d = new Date();
+    //var start_time = d.getTime();
     // console.log('start_time = ' + start_time);
-    var time_sample;
-    var diff_time;
+    //var time_sample;
+    //var diff_time;
 
     ext.cnct = function () {
-            console.log('loaded');
-            window.socket = new WebSocket("ws://127.0.0.1:9000");
-            window.socket.onopen = function () {
-                var msg = JSON.stringify({
-                    "command": "ready"
-                });
-                window.socket.send(msg);
-                console.log("Connected!");
-                isopen = true;
-            };
+        console.log('loaded');
+        window.socket = new WebSocket("ws://127.0.0.1:9000");
+        window.socket.onopen = function () {
+            var msg = JSON.stringify({
+                "command": "ready"
+            });
+            window.socket.send(msg);
+            console.log("Connected!");
+            isopen = true;
+        };
 
-            window.socket.onmessage = function (message) {
-                var msg = JSON.parse(message.data);
-                switch (msg['info']) {
-                    case 'axis':
-                        var val = msg['data'];
-                        break;
-                    case 'encoders':
-                        var left = msg['left'];
-                        var right = msg['right'];
-                        // console.log('left = ' + left + 'right = ' + right);
-                        break;
-                    case 'ir1':
-                        lineSensor1 = msg['data'];
-                        break;
-                    case 'ir2':
-                        lineSensor2 = msg['data'];
-                        break;
-                    case 'ir3':
-                        lineSensor3 = msg['data'];
-                        break;
-                    case 'pl':
-                        // val = msg['data'];
-                        // $('#orientation').val(val);
-                        break;
-                    case 'tap':
+        window.socket.onmessage = function (message) {
+            var msg = JSON.parse(message.data);
+            switch (msg['info']) {
+                case 'axis':
+                    var val = msg['data'];
+                    break;
+                case 'encoders':
+                    var left = msg['left'];
+                    var right = msg['right'];
+                    // console.log('left = ' + left + 'right = ' + right);
+                    break;
+                case 'ir1':
+                    lineSensor1 = msg['data'];
+                    break;
+                case 'ir2':
+                    lineSensor2 = msg['data'];
+                    break;
+                case 'ir3':
+                    lineSensor3 = msg['data'];
+                    break;
+                case 'pl':
+                    // val = msg['data'];
+                    // $('#orientation').val(val);
+                    break;
+                case 'tap':
 
-                        break;
-                    case 'l_bump':
-                        val = msg['data'];
+                    break;
+                case 'l_bump':
+                    val = msg['data'];
 
-                        break;
-                    case 'r_bump':
+                    break;
+                case 'r_bump':
 
-                        break;
-                }
-            };
-            //noinspection JSUnusedLocalSymbols
-            window.socket.onclose = function (e) {
-                console.log("Connection closed.");
-                socket = null;
-                isopen = false;
-            };
+                    break;
+            }
+        };
+        //noinspection JSUnusedLocalSymbols
+        window.socket.onclose = function (e) {
+            console.log("Connection closed.");
+            socket = null;
+            isopen = false;
+        };
     };
 
     // Cleanup function when the extension is unloaded
@@ -98,19 +100,29 @@
     };
 
     ext.motorControl = function (wheel, operation, speed) {
-        var msg = JSON.stringify({
-            "command": "motors", "motor": wheel, "operation": operation, "speed": speed
-        });
-        console.log(msg);
-        window.socket.send(msg);
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        else {
+            var msg = JSON.stringify({
+                "command": "motors", "motor": wheel, "operation": operation, "speed": speed
+            });
+            console.log(msg);
+            window.socket.send(msg);
+        }
     };
 
     ext.ledControl = function (state) {
-        var msg = JSON.stringify({
-            "command": "led", "state": state
-        });
-        console.log(msg);
-        window.socket.send(msg);
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        else {
+            var msg = JSON.stringify({
+                "command": "led", "state": state
+            });
+            console.log(msg);
+            window.socket.send(msg);
+        }
     };
 
 
@@ -145,27 +157,40 @@
     };
 
     ext.coast = function (motor) {
-        var msg = JSON.stringify({
-            "command": 'coast', 'motor': motor
-        });
-        console.log(msg);
-        window.socket.send(msg);
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        else {
+            var msg = JSON.stringify({
+                "command": 'coast', 'motor': motor
+            });
+            console.log(msg);
+            window.socket.send(msg);
+        }
     };
 
     ext.brake = function (motor) {
-        var msg = JSON.stringify({
-            "command": 'brake', 'motor': motor
-        });
-        console.log(msg);
-        window.socket.send(msg);
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        else {
+            var msg = JSON.stringify({"command": 'brake', 'motor': motor});
+            console.log(msg);
+            window.socket.send(msg);
+        }
     };
 
     ext.playTone = function (frequency, duration) {
-        var msg = JSON.stringify({
-            "command": 'tone', 'frequency': frequency, 'duration': duration
-        });
-        console.log(msg);
-        window.socket.send(msg);
+        if (connected == false) {
+            alert("Server Not Connected");
+        }
+        else {
+            var msg = JSON.stringify({
+                "command": 'tone', 'frequency': frequency, 'duration': duration
+            });
+            console.log(msg);
+            window.socket.send(msg);
+        }
 
     };
 
@@ -236,7 +261,7 @@
             speeds: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
             pin: ['2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '16'],
             mode: ['Output', 'PWM', 'Servo', 'SONAR'],
-            accelData: [ " g's ", 'Angle', "Raw"]
+            accelData: [" g's ", 'Angle', "Raw"]
         },
         url: 'http://MrYsLab.github.io/rb4s'
     };
