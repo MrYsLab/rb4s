@@ -104,6 +104,10 @@ class RB4S(WebSocketServerProtocol):
             else:
                 yield from self.rb_control.set_led(0)
 
+        elif client_cmd == 'shutdown':
+            yield from self.rb_control.motor_control(self.rb_control.LEFT_MOTOR, self.rb_control.COAST, 0)
+            yield from self.rb_control.motor_control(self.rb_control.RIGHT_MOTOR, self.rb_control.COAST, 0)
+            yield from self.my_core.shutdown()
 
         else:
             print("unknown command from scratch: " + client_cmd)
