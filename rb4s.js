@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js alpha_020');
+    console.log('rb4sx.js alpha_021');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -20,6 +20,9 @@
     var lineSensor1 = 0;
     var lineSensor2 = 0;
     var lineSensor3 = 0;
+
+    var myStatus = 1; // initially yellow
+    var myMsg = 'not_ready'
 
     //var t, z;
 
@@ -40,6 +43,8 @@
             console.log("Connected!");
             isopen = true;
             connecte = true;
+            myStatus = 2;
+            myMsg = 'ready'
         };
 
         window.socket.onmessage = function (message) {
@@ -97,7 +102,7 @@
     // Status reporting code
     // Use this to report missing hardware, plugin or unsupported browser
     ext._getStatus = function (status, msg) {
-        return {status: 2, msg: 'Ready'};
+        return {status: myStatus, msg: myMsg};
     };
 
     ext.motorControl = function (wheel, operation, speed) {
