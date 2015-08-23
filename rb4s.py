@@ -146,7 +146,7 @@ if __name__ == '__main__':
 
     try:
         while True:
-            # loop.run_until_complete(rbc.get_accel_data())
+            loop.run_until_complete(rbc.get_accel_data())
             loop.run_until_complete(asyncio.sleep(.1))
         loop.run_forever()
     except KeyboardInterrupt:
