@@ -91,15 +91,30 @@ class RB4S(WebSocketServerProtocol):
                 motor = self.rb_control.RIGHT_MOTOR
             yield from self.rb_control.motor_control(motor, self.rb_control.BRAKE, 0)
 
+        # tone generator
+        elif client_cmd == "tone":
+            frequency = int(cmd_dict.get('frequency'))
+            duration = int(cmd_dict.get('duration'))
+            yield from self.rb_control.play_tone(frequency, duration)
+
+        # led control
+        elif client_cmd == "led":
+            if cmd_dict.get('state') == 'On':
+                yield from self.rb_control.set_led(1)
+            else:
+                yield from self.rb_control.set_led(0)
+
+
         else:
             print("unknown command from scratch: " + client_cmd)
 
-    def onClose(self, wasClean, code, reason):
-        print("WebSocket connection closed: {0}".format(reason))
-        yield from self.rb_control.motor_control(self.rb_control.LEFT_MOTOR, self.rb_control.COAST, 0)
 
-        yield from self.rb_control.motor_control(self.rb_control.RIGHT_MOTOR, self.rb_control.COAST, 0)
-        yield from self.my_core.shutdown()
+        def onClose(self, wasClean, code, reason):
+            print("WebSocket connection closed: {0}".format(reason))
+            yield from self.rb_control.motor_control(self.rb_control.LEFT_MOTOR, self.rb_control.COAST, 0)
+
+            yield from self.rb_control.motor_control(self.rb_control.RIGHT_MOTOR, self.rb_control.COAST, 0)
+            yield from self.my_core.shutdown()
 
 
 if __name__ == '__main__':

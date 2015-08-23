@@ -236,6 +236,17 @@ class RedBotController:
         yield from asyncio.sleep(.001)
 
     @asyncio.coroutine
+    def play_tone(self, frequency, duration):
+        yield from self.board.play_tone(self.pins["BUZZER"], Constants.TONE_TONE, frequency, duration)
+
+    @asyncio.coroutine
+    def set_led(self, state):
+        yield from self.board.digital_write(self.pins["LED"], state)
+
+
+
+
+    @asyncio.coroutine
     def accel_axis_callback(self, data):
 
         datax = float("{0:.2f}".format(data[3]))
