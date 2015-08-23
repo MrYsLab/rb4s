@@ -23,40 +23,27 @@
     var diff_time;
 
     ext.cnct = function () {
-        //window.onload = function () {
             console.log('loaded');
             window.socket = new WebSocket("ws://127.0.0.1:9000");
-
-
             window.socket.onopen = function () {
-
                 var msg = JSON.stringify({
                     "command": "ready"
                 });
-
                 window.socket.send(msg);
-
                 console.log("Connected!");
                 isopen = true;
-
-
             };
 
             window.socket.onmessage = function (message) {
-
                 var msg = JSON.parse(message.data);
-                // console.log(message.data);
                 switch (msg['info']) {
                     case 'axis':
                         var val = msg['data'];
-
                         break;
                     case 'encoders':
                         var left = msg['left'];
                         var right = msg['right'];
                         // console.log('left = ' + left + 'right = ' + right);
-
-
                         break;
                     case 'ir1':
 
@@ -83,16 +70,12 @@
                         break;
                 }
             };
-
-
             //noinspection JSUnusedLocalSymbols
             window.socket.onclose = function (e) {
                 console.log("Connection closed.");
                 socket = null;
                 isopen = false;
             };
-
-        //};
     };
 
     // Cleanup function when the extension is unloaded
@@ -100,7 +83,6 @@
         var msg = JSON.stringify({
             "command": "shutdown"
         });
-
         window.socket.send(msg);
     };
 
@@ -112,12 +94,11 @@
 
     ext.motorControl = function (wheel, operation, speed) {
         console.log('motor_control: ' + wheel + ' ' + operation + ' ' + speed);
-
         var msg = JSON.stringify({
             "command": "motors", "motor": wheel, "operation": operation, "speed": speed
         });
 
-        window.socket.send(msg);
+        window.socket.end(msg);
     };
 
     ext.ledControl = function () {
