@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js alpha_017');
+    console.log('rb4sx.js alpha_018');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -221,7 +221,7 @@
             ['h', 'When encoder count > %n', 'encoder'],
             ['r', 'Encoder Count', 'encCount'],
             ['r', 'Line Sensor %m.lineFollower', 'lineFollower', '1'],
-            ['r', 'Accelerometer %m.axis axis, data type: %m.accelData ', 'accel', 'X', "g's"],
+            ['r', 'Accelerometer: %m.accelData for %m.axis axis', 'accel', 'X', " g's "],
             [' ', 'Pin Mode Override: Pin %m.pin Mode: %m.mode', 'override', '3', 'Output'],
             ['r', 'Read Pin %m.pin', 'readPin', '3'],
             ['r', 'Write Pin %m.pin: Value = %n', 'writePin', '3', '0']
@@ -236,7 +236,7 @@
             speeds: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
             pin: ['2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '16'],
             mode: ['Output', 'PWM', 'Servo', 'SONAR'],
-            accelData: [ "g's", 'Angle', "Raw"]
+            accelData: [ " g's ", 'Angle', "Raw"]
         },
         url: 'http://MrYsLab.github.io/rb4s'
     };
