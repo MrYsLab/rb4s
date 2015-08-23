@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js alpha_012');
+    console.log('rb4sx.js alpha_014');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -100,9 +100,12 @@
         window.socket.send(msg);
     };
 
-    ext.ledControl = function () {
-        ucon();
-
+    ext.ledControl = function (state) {
+        var msg = JSON.stringify({
+            "command": "led", "state": state
+        });
+        console.log(msg);
+        window.socket.send(msg);
     };
 
 
@@ -138,6 +141,14 @@
         window.socket.send(msg);
     };
 
+    ext.playTone = function (frequency, duration) {
+        var msg = JSON.stringify({
+            "command": 'tone', 'frequency': frequency, 'duration': duration
+        });
+        console.log(msg);
+        window.socket.send(msg);
+
+    };
 
     ext.hatPushButton = function () {
         ucon();
