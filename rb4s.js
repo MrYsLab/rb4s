@@ -208,7 +208,7 @@
     var descriptor = {
         blocks: [
             // Block type, block name, function name
-            [' ', 'Connect', 'cnct'],
+            [' ', 'Connect to rb4s server.', 'cnct'],
             [' ', 'Move %m.motor wheel %m.operation Speed = %m.speeds ', 'motorControl', 'Left', 'Forward', '1'],
             [' ', 'Coast %m.motor motor', 'coast', 'Left'],
             [' ', 'Brake %m.motor motor', 'brake', 'Left'],
