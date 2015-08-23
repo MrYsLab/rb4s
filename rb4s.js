@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js alpha_018');
+    console.log('rb4sx.js alpha_019');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -221,7 +221,7 @@
             ['h', 'When encoder count > %n', 'encoder'],
             ['r', 'Encoder Count', 'encCount'],
             ['r', 'Line Sensor %m.lineFollower', 'lineFollower', '1'],
-            ['r', 'Accelerometer: %m.accelData for %m.axis axis', 'accel', 'X', " g's "],
+            ['r', 'Accelerometer: %m.axis axis %m.accelData', 'accel', 'X', " g's "],
             [' ', 'Pin Mode Override: Pin %m.pin Mode: %m.mode', 'override', '3', 'Output'],
             ['r', 'Read Pin %m.pin', 'readPin', '3'],
             ['r', 'Write Pin %m.pin: Value = %n', 'writePin', '3', '0']
