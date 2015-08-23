@@ -197,7 +197,7 @@
         blocks: [
             // Block type, block name, function name
             [' ', 'Connect', 'cnct'],
-            [' ', 'Move %m.motor wheel %m.operation. Speed = %m.speeds ', 'motorControl', 'Left', 'Forward', '1'],
+            [' ', 'Move %m.motor wheel %m.operation Speed = %m.speeds ', 'motorControl', 'Left', 'Forward', '1'],
             [' ', 'Set coast for %m.motor motor', 'coast', 'Left'],
             [' ', 'Set brake for %m.motor motor', 'brake', 'Left'],
             [' ', 'LED 13 %m.ledState', 'ledControl', 'On'],
