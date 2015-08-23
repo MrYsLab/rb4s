@@ -39,6 +39,7 @@
             window.socket.send(msg);
             console.log("Connected!");
             isopen = true;
+            connecte = true;
         };
 
         window.socket.onmessage = function (message) {
