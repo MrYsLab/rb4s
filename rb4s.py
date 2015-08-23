@@ -109,6 +109,9 @@ class RB4S(WebSocketServerProtocol):
             yield from self.rb_control.motor_control(self.rb_control.RIGHT_MOTOR, self.rb_control.COAST, 0)
             yield from self.my_core.shutdown()
 
+        elif client_cmd == 'ready':
+            print('connected to scratchx page')
+
         else:
             print("unknown command from scratch: " + client_cmd)
 
