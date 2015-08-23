@@ -96,8 +96,8 @@
         var msg = JSON.stringify({
             "command": "motors", "motor": wheel, "operation": operation, "speed": speed
         });
-        console.log(msg)
-        window.socket.end(msg);
+        console.log(msg);
+        window.socket.send(msg);
     };
 
     ext.ledControl = function () {
