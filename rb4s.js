@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js alpha_014');
+    console.log('rb4sx.js alpha_015');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -13,6 +13,11 @@
     var device = null;
     var socket = null;
     var isopen = false;
+
+    // line sensor registers
+    var lineSensor1 = 0;
+    var lineSensor2 = 0;
+    var lineSensor3 = 0;
 
     var t, z;
 
@@ -46,13 +51,13 @@
                         // console.log('left = ' + left + 'right = ' + right);
                         break;
                     case 'ir1':
-
+                        lineSensor1 = msg['data'];
                         break;
                     case 'ir2':
-
+                        lineSensor2 = msg['data'];
                         break;
                     case 'ir3':
-
+                        lineSensor3 = msg['data'];
                         break;
                     case 'pl':
                         // val = msg['data'];
@@ -109,9 +114,23 @@
     };
 
 
-    ext.lineFollower = function () {
-        ucon();
-
+    ext.lineFollower = function (follower) {
+        var ls = 0;
+        switch (follower) {
+            case '1':
+                ls = lineSensor1;
+                break;
+            case '2':
+                ls = lineSensor2;
+                break;
+            case '3':
+                ls = lineSensor3;
+                break;
+            default:
+                ls = -1;
+                break;
+        }
+        return ls;
     };
 
 
