@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js alpha_009');
+    console.log('rb4sx.js alpha_010');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -106,7 +106,7 @@
 
     // Status reporting code
     // Use this to report missing hardware, plugin or unsupported browser
-    ext._getStatus = function () {
+    ext._getStatus = function (status, msg) {
         return {status: 2, msg: 'Ready'};
     };
 
@@ -114,7 +114,7 @@
         console.log('motor_control: ' + wheel + ' ' + operation + ' ' + speed);
 
         var msg = JSON.stringify({
-            "command": "motors", "left_command": wheel, "operation": operation, "speed": speed
+            "command": "motors", "motor": wheel, "operation": operation, "speed": speed
         });
 
         window.socket.send(msg);
