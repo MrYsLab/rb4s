@@ -181,8 +181,8 @@
             // Block type, block name, function name
             [' ', 'Connect', 'cnct'],
             [' ', 'Move %m.motor wheel %m.operation Speed = %m.speeds ', 'motorControl', 'Left', 'Forward', '1'],
-            [' ', 'Set coast for %m.motor motor', 'coast', 'Left'],
-            [' ', 'Set brake for %m.motor motor', 'brake', 'Left'],
+            [' ', 'Coast %m.motor motor', 'coast', 'Left'],
+            [' ', 'Brake %m.motor motor', 'brake', 'Left'],
             [' ', 'LED 13 %m.ledState', 'ledControl', 'On'],
             [' ', 'Play Tone  %n Hz  %n ms', 'playTone', '1000', '500'],
             [' ', 'Reset Encoder Count', 'resetCount'],
