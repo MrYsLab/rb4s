@@ -1,4 +1,5 @@
 # rb4s
-RedBot Controller for Scratch
+RedBot Controller for ScratchX
 
-Nothing much to see here yet.
+Coming Soon!
+A ScratchX JavaScript Extension to Control the SparkFun RedBot Robot!!!
