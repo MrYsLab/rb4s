@@ -93,11 +93,10 @@
     };
 
     ext.motorControl = function (wheel, operation, speed) {
-        console.log('motor_control: ' + wheel + ' ' + operation + ' ' + speed);
         var msg = JSON.stringify({
             "command": "motors", "motor": wheel, "operation": operation, "speed": speed
         });
-
+        console.log(msg)
         window.socket.end(msg);
     };
 
