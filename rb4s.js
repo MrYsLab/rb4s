@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js alpha_022');
+    console.log('rb4sx.js alpha_024');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -22,7 +22,7 @@
     var lineSensor3 = 0;
 
     var myStatus = 1; // initially yellow
-    var myMsg = 'not_ready'
+    var myMsg = 'not_ready';
 
     //var t, z;
 
@@ -41,10 +41,9 @@
             });
             window.socket.send(msg);
             console.log("Connected!");
-            connecte = true;
             myStatus = 2;
-            myMsg = 'ready'
-            _deviceConnected = true;
+            myMsg = 'ready';
+            connected = true;
         };
 
         window.socket.onmessage = function (message) {
