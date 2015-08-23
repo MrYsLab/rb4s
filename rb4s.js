@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js v.007');
+    console.log('rb4sx.js alpha_008');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -107,6 +107,7 @@
     // Status reporting code
     // Use this to report missing hardware, plugin or unsupported browser
     ext._getStatus = function () {
+        alert('get status called');
         return {status: 2, msg: 'Ready'};
     };
 
@@ -121,20 +122,24 @@
     };
 
     ext.ledControl = function () {
+        ucon();
 
     };
 
 
     ext.lineFollower = function () {
+        ucon();
 
     };
 
 
     ext.accel = function () {
+        ucon();
 
     };
 
     ext.encoder = function () {
+        ucon();
 
     };
 
@@ -154,28 +159,38 @@
 
 
     ext.hatPushButton = function () {
+        ucon();
 
     };
 
     ext.tap = function () {
+        ucon();
 
     };
 
     ext.override = function () {
+        ucon();
 
     };
 
     ext.resetCount = function () {
+        ucon();
 
     };
 
     ext.writePin = function () {
+        ucon();
 
     };
 
     ext.readPin = function () {
+        ucon();
 
     };
+
+    function ucon() {
+        alert("Under Construction");
+    }
 
 
     // Block and block menu descriptions
