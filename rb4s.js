@@ -221,7 +221,7 @@
             ['h', 'When encoder count > %n', 'encoder'],
             ['r', 'Encoder Count', 'encCount'],
             ['r', 'Line Sensor %m.lineFollower', 'lineFollower', '1'],
-            ['r', 'Accelerometer %m.axis axis:', 'accel', 'X'],
+            ['r', 'Accelerometer %m.axis axis, data type: %m.accelData ', 'accel', 'X', "g's"],
             [' ', 'Pin Mode Override: Pin %m.pin Mode: %m.mode', 'override', '3', 'Output'],
             ['r', 'Read Pin %m.pin', 'readPin', '3'],
             ['r', 'Write Pin %m.pin: Value = %n', 'writePin', '3', '0']
@@ -235,7 +235,8 @@
             axis: ['X', 'Y', 'Z'],
             speeds: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
             pin: ['2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '16'],
-            mode: ['Output', 'PWM', 'Servo', 'SONAR']
+            mode: ['Output', 'PWM', 'Servo', 'SONAR'],
+            accelData: [ "g's", 'Angle', "Raw"]
         },
         url: 'http://MrYsLab.github.io/rb4s'
     };
