@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js alpha_021');
+    console.log('rb4sx.js alpha_022');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -41,10 +41,10 @@
             });
             window.socket.send(msg);
             console.log("Connected!");
-            isopen = true;
             connecte = true;
             myStatus = 2;
             myMsg = 'ready'
+            _deviceConnected = true;
         };
 
         window.socket.onmessage = function (message) {
@@ -87,7 +87,9 @@
         window.socket.onclose = function (e) {
             console.log("Connection closed.");
             socket = null;
-            isopen = false;
+            connected = false;
+            myStatus = 1;
+            myMsg = 'not_ready'
         };
     };
 
