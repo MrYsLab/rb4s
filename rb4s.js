@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js alpha_011');
+    console.log('rb4sx.js alpha_012');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -146,6 +146,7 @@
         var msg = JSON.stringify({
             "command": 'coast', 'motor': motor
         });
+        console.log(msg);
         window.socket.send(msg);
     };
 
@@ -153,6 +154,7 @@
         var msg = JSON.stringify({
             "command": 'brake', 'motor': motor
         });
+        console.log(msg);
         window.socket.send(msg);
     };
 
