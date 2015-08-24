@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js alpha_029');
+    console.log('rb4sx.js alpha_030');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -83,6 +83,7 @@
                     var right = msg['right'];
                     leftEncoder += left;
                     rightEncoder += right;
+                    console.log("L: " + leftEncoder + "R: " + rightEncoder);
                     break;
                 case 'ir1':
                     lineSensor1 = msg['data'];
