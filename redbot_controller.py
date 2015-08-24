@@ -17,6 +17,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 """
 import asyncio
 import json
+import math
 
 from pymata_aio.constants import Constants
 from pymata_aio.pymata_core import PymataCore
@@ -253,7 +254,19 @@ class RedBotController:
         datay = float("{0:.2f}".format(data[4]))
         dataz = float("{0:.2f}".format(data[5]))
 
-        msg = json.dumps({"info": "axis", "x": datax, "y": datay, "z": dataz})
+
+        x = data[0]
+        y = data[1]
+        z = data[2]
+
+        angle_xz = 180 * math.atan2(x, z) / math.pi
+        angle_xy = 180 * math.atan2(x, y) / math.pi
+        angle_yz = 180 * math.atan2(y, z) / math.pi
+
+
+        msg = json.dumps({"info": "axis", "xg": datax, "yg": datay, "zg": dataz,
+                          "rawx": x, "rawy": y, "rawz": z,
+                          "angle_x": angle_xz, "angle_y": angle_xy, "angle_z": angle_yz})
         if self.socket:
             self.socket.sendMessage(msg.encode('utf8'))
         asyncio.sleep(.001)
