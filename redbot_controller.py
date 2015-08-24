@@ -256,13 +256,18 @@ class RedBotController:
         z = data[2]
 
         angle_xz = 180 * math.atan2(x, z) / math.pi
-        angle_xz= float("{0:.2f}".format(angle_xz))
+        angle_xz= str(float("{0:.2f}".format(angle_xz)))
 
         angle_xy = 180 * math.atan2(x, y) / math.pi
-        angle_xy = float("{0:.2f}".format(angle_xy))
+        angle_xy = str(float("{0:.2f}".format(angle_xy)))
 
         angle_yz = 180 * math.atan2(y, z) / math.pi
-        angle_yz = float("{0:.2f}".format(angle_yz))
+        angle_yz = str(float("{0:.2f}".format(angle_yz)))
+
+        x = str(data[0])
+        y = str(data[1])
+        z = str(data[2])
+
 
         msg = json.dumps({"info": "axis", "xg": datax, "yg": datay, "zg": dataz,
                           "raw_x": x, "raw_y": y, "raw_z": z,
