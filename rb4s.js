@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js alpha_034');
+    console.log('rb4sx.js alpha_035');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -110,7 +110,6 @@
                     tap = true;
                     break;
                 case 'l_bump':
-                    rVal = msg['data'];
                     leftBumper = true;
                     break;
                 case 'r_bump':
@@ -191,9 +190,9 @@
 
     ext.accel = function (axis, dataType) {
         console.log('axis: ' + axis + ' dataType: ' + dataType)
-        switch(dataType) {
+        switch (dataType) {
             case " g's ":
-                switch(axis) {
+                switch (axis) {
                     case 'X':
                         rVal = xG;
                         break;
@@ -206,7 +205,7 @@
                 }
                 break;
             case "Angle":
-                switch(axis) {
+                switch (axis) {
                     case 'X':
                         rVal = xAngle;
                         break;
@@ -219,7 +218,7 @@
                 }
                 break;
             default: // raw
-                switch(axis) {
+                switch (axis) {
                     case 'X':
                         rVal = xRaw;
                         break;
@@ -237,13 +236,13 @@
     };
 
     ext.encoder = function (value) {
-        if (leftEncoder >=  value || rightEncoder >= value) {
+        if (leftEncoder >= value || rightEncoder >= value) {
             leftEncoder = 0;
             rightEncoder = 0;
             return true;
-       }
+        }
 
-       return false;
+        return false;
     };
 
     ext.coast = function (motor) {
@@ -286,30 +285,34 @@
 
     ext.hatPushButton = function () {
         if (pushButton === true) {
-           pushButton = false;
-           return true;
-       }
+            pushButton = false;
+            return true;
+        }
 
-       return false;
+        return false;
     };
 
     ext.tap = function () {
         if (tap === true) {
-           tap = false;
-           return true;
-       }
-       return false;
+            tap = false;
+            return true;
+        }
+        return false;
     };
 
 
     ext.bumpers = function (lr) {
-        if(lr === 'Left') {
+        if (lr === 'Left') {
             leftBumper = true;
+            return true;
+
         }
         else {
             rightBumper = true;
-       }
-       return false;
+            return true;
+
+        }
+        return false;
     };
 
     ext.override = function () {
