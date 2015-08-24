@@ -21,16 +21,24 @@
     var lineSensor2 = 0;
     var lineSensor3 = 0;
 
+    // accelerometer
+    var xRaw = 0;
+    var yRaw = 0;
+    var zRaw = 0;
+
+    var xG = 0;
+    var yG = 0;
+    var zG = 0;
+
+    var xAngle = 0;
+    var yAngle = 0;
+    var zAngle = 0;
+
+    var rVal = 0;
+
+
     var myStatus = 1; // initially yellow
     var myMsg = 'not_ready';
-
-    //var t, z;
-
-    //var d = new Date();
-    //var start_time = d.getTime();
-    // console.log('start_time = ' + start_time);
-    //var time_sample;
-    //var diff_time;
 
     ext.cnct = function () {
         console.log('loaded');
@@ -50,7 +58,23 @@
             var msg = JSON.parse(message.data);
             switch (msg['info']) {
                 case 'axis':
-                    var val = msg['data'];
+                    /*
+                    msg = json.dumps({"info": "axis", "xg": datax, "yg": datay, "zg": dataz,
+                          "raw_x": x, "raw_y": y, "raw_z": z,
+                          "angle_x": angle_xz, "angle_y": angle_xy, "angle_z": angle_yz})
+                     */
+                    xRaw = msg['x'];
+                    yRaw = msg['y'];
+                    zRaw = msg['z'];
+
+                    xG = msg['xg'];
+                    yG = msg['yg'];
+                    zG = msg['zg'];
+
+                    xAngle = msg['angle_xz'];
+                    yAngle = msg['angle_xy'];
+                    zAngle = msg['angle_yz'];
+
                     break;
                 case 'encoders':
                     var left = msg['left'];
@@ -74,7 +98,7 @@
 
                     break;
                 case 'l_bump':
-                    val = msg['data'];
+                    rVal = msg['data'];
 
                     break;
                 case 'r_bump':
@@ -153,9 +177,49 @@
     };
 
 
-    ext.accel = function () {
-        ucon();
-
+    ext.accel = function (axis, dataType) {
+        switch(dataType) {
+            case " g's ":
+                switch(axis) {
+                    case 'X':
+                        rVal = xG;
+                        break;
+                    case 'Y':
+                        rVal = yG;
+                        break;
+                    default:
+                        rVal = zG;
+                        break
+                }
+                break;
+            case "Angle":
+                switch(axis) {
+                    case 'X':
+                        rVal = xAngle;
+                        break;
+                    case 'Y':
+                        rVal = yAngle;
+                        break;
+                    default:
+                        rVal = zAngle;
+                        break;
+                }
+                break;
+            default: // raw
+                switch(axis) {
+                    case 'X':
+                        rVal = xRaw;
+                        break;
+                    case 'Y':
+                        rVal = yRaw;
+                        break;
+                    default:
+                        rVal = zRaw;
+                        break;
+                }
+                break;
+        }
+        return rVal;
     };
 
     ext.encoder = function () {
