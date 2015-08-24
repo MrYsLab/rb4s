@@ -45,7 +45,7 @@ class RB4S(WebSocketServerProtocol):
     def onMessage(self, payload, isBinary):
 
         cmd_dict = json.loads(payload.decode('utf8'))
-        print(cmd_dict)
+        # print(cmd_dict)
 
         client_cmd = cmd_dict.get("command")
 
@@ -138,9 +138,11 @@ if __name__ == '__main__':
 
     rbc = RedBotController(my_core)
 
-    loop.run_until_complete(rbc.init_red_board())
+    #loop.run_until_complete(rbc.init_red_board())
     factory.protocol.rb_control = rbc
     factory.protocol.my_core = my_core
+    loop.run_until_complete(rbc.init_red_board())
+
 
     new = 2
 
