@@ -303,10 +303,12 @@ class RedBotController:
 
     @asyncio.coroutine
     def left_encoder_callback(self, data):
-        msg = json.dumps({"info": "encoders", "left": data[0], "right": data[1]})
         if self.socket:
-            self.socket.sendMessage(msg.encode('utf8'))
-        asyncio.sleep(.1)
+            if data[0] != 0 or data[1] != 0:
+                msg = json.dumps({"info": "encoders", "left": str(data[0]), "right": str(data[1])})
+                print(msg)
+                self.socket.sendMessage(msg.encode('utf8'))
+            asyncio.sleep(.1)
 
     def establish_socket(self, socket):
         self.socket = socket
