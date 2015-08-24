@@ -180,8 +180,8 @@ class RedBotController:
                     if self.socket:
                         self.socket.sendMessage(msg.encode('utf8'))
                     yield from asyncio.sleep(.5)
-                    msg = json.dumps({"info": "l_bump", "data": 0})
-                    self.socket.sendMessage(msg.encode('utf8'))
+                    # msg = json.dumps({"info": "l_bump", "data": 0})
+                    # self.socket.sendMessage(msg.encode('utf8'))
                     self.rbump_wait = False
         yield from asyncio.sleep(.001)
 
@@ -195,8 +195,8 @@ class RedBotController:
                     if self.socket:
                         self.socket.sendMessage(msg.encode('utf8'))
                     yield from asyncio.sleep(.5)
-                    msg = json.dumps({"info": "r_bump", "data": 0})
-                    self.socket.sendMessage(msg.encode('utf8'))
+                    # msg = json.dumps({"info": "r_bump", "data": 0})
+                    # self.socket.sendMessage(msg.encode('utf8'))
                     self.rbump_wait = False
         yield from asyncio.sleep(.001)
 
