@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js alpha_024');
+    console.log('rb4sx.js alpha_025');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -63,6 +63,7 @@
                           "raw_x": x, "raw_y": y, "raw_z": z,
                           "angle_x": angle_xz, "angle_y": angle_xy, "angle_z": angle_yz})
                      */
+                    console.log(msg);
                     xRaw = msg['x'];
                     yRaw = msg['y'];
                     zRaw = msg['z'];
