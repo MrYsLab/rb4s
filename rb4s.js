@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js alpha_027');
+    console.log('rb4sx.js alpha_028');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -33,6 +33,9 @@
     var xAngle = 0;
     var yAngle = 0;
     var zAngle = 0;
+
+    // pushbutton state
+    var pushButton = false;
 
     var rVal = 0;
 
@@ -83,6 +86,9 @@
                     break;
                 case 'ir3':
                     lineSensor3 = msg['data'];
+                    break;
+                case 'pushButton':
+                    pushButton = true;
                     break;
                 case 'pl':
                     // val = msg['data'];
@@ -262,8 +268,12 @@
     };
 
     ext.hatPushButton = function () {
-        ucon();
+        if (pushButton === true) {
+           pushButton = false;
+           return true;
+       }
 
+       return false;
     };
 
     ext.tap = function () {
