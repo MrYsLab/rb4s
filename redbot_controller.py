@@ -247,17 +247,22 @@ class RedBotController:
     @asyncio.coroutine
     def accel_axis_callback(self, data):
 
-        datax = float("{0:.2f}".format(data[3]))
-        datay = float("{0:.2f}".format(data[4]))
-        dataz = float("{0:.2f}".format(data[5]))
+        datax = str(float("{0:.2f}".format(data[3])))
+        datay = str(float("{0:.2f}".format(data[4])))
+        dataz = str(float("{0:.2f}".format(data[5])))
 
         x = data[0]
         y = data[1]
         z = data[2]
 
         angle_xz = 180 * math.atan2(x, z) / math.pi
+        angle_xz= float("{0:.2f}".format(angle_xz))
+
         angle_xy = 180 * math.atan2(x, y) / math.pi
+        angle_xy = float("{0:.2f}".format(angle_xy))
+
         angle_yz = 180 * math.atan2(y, z) / math.pi
+        angle_yz = float("{0:.2f}".format(angle_yz))
 
         msg = json.dumps({"info": "axis", "xg": datax, "yg": datay, "zg": dataz,
                           "raw_x": x, "raw_y": y, "raw_z": z,
