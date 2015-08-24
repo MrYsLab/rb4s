@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js alpha_026');
+    console.log('rb4sx.js alpha_027');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -58,22 +58,17 @@
             var msg = JSON.parse(message.data);
             switch (msg['info']) {
                 case 'axis':
-
-                    console.log(msg);
-                    xRaw = msg['x'];
-                    yRaw = msg['y'];
-                    zRaw = msg['z'];
+                    xRaw = msg['raw_x'];
+                    yRaw = msg['raw_y'];
+                    zRaw = msg['raw_z'];
 
                     xG = msg['xg'];
                     yG = msg['yg'];
                     zG = msg['zg'];
 
-                    xAngle = msg['angle_xz'];
-                    yAngle = msg['angle_xy'];
-                    zAngle = msg['angle_yz'];
-
-                    console.log('ax ' + xRaw + ' ' + xG + ' ' + xAngle);
-
+                    xAngle = msg['angle_x'];
+                    yAngle = msg['angle_y'];
+                    zAngle = msg['angle_z'];
                     break;
                 case 'encoders':
                     var left = msg['left'];
