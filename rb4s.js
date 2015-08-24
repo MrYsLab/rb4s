@@ -40,7 +40,7 @@
 
     // encoder data
     var leftEncoder = 0;
-    var rightEncoder = 0
+    var rightEncoder = 0;
 
     var rVal = 0;
 
@@ -299,6 +299,7 @@
     };
 
     ext.resetCount = function () {
+        console.log('left: ' + leftEncoder);
         leftEncoder = 0;
         rightEncoder = 0;
     };
