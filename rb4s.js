@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js alpha_035');
+    console.log('rb4sx.js alpha_036');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -301,16 +301,18 @@
     };
 
 
-    ext.bumpers = function (lr) {
-        if (lr === 'Left') {
-            leftBumper = true;
+   ext.leftBump = function () {
+        if (leftBumper === true) {
+            leftBumper = false;
             return true;
-
         }
-        else {
-            rightBumper = true;
-            return true;
+        return false;
+    };
 
+   ext.rightBump = function () {
+        if (rightBumper === true) {
+            rightBumper = false;
+            return true;
         }
         return false;
     };
@@ -361,7 +363,8 @@
             [' ', 'Play Tone  %n Hz  %n ms', 'playTone', '1000', '500'],
             [' ', 'Reset Encoder Count', 'resetCount'],
             ['h', 'When User Button Is Pushed', 'hatPushButton'],
-            ['h', 'When %m.bumper bumper activates', 'bumpers', 'Left'],
+            ['h', 'When left bumper activates', 'leftBump'],
+            ['h', 'When right bumper activates', 'rightBump'],
             ['h', 'When tap sensor activates', 'tap'],
             ['h', 'When encoder count > %n', 'encoder'],
             ['r', 'Encoder Count', 'encCount'],
