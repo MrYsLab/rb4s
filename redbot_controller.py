@@ -244,16 +244,12 @@ class RedBotController:
     def set_led(self, state):
         yield from self.board.digital_write(self.pins["LED"], state)
 
-
-
-
     @asyncio.coroutine
     def accel_axis_callback(self, data):
 
         datax = float("{0:.2f}".format(data[3]))
         datay = float("{0:.2f}".format(data[4]))
         dataz = float("{0:.2f}".format(data[5]))
-
 
         x = data[0]
         y = data[1]
@@ -263,9 +259,8 @@ class RedBotController:
         angle_xy = 180 * math.atan2(x, y) / math.pi
         angle_yz = 180 * math.atan2(y, z) / math.pi
 
-
         msg = json.dumps({"info": "axis", "xg": datax, "yg": datay, "zg": dataz,
-                          "rawx": x, "rawy": y, "rawz": z,
+                          "raw_x": x, "raw_y": y, "raw_z": z,
                           "angle_x": angle_xz, "angle_y": angle_xy, "angle_z": angle_yz})
         if self.socket:
             self.socket.sendMessage(msg.encode('utf8'))
