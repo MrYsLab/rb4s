@@ -232,7 +232,7 @@ class RedBotController:
             # switch is active low
             msg = ""
             if data == 0:
-                msg = json.dumps({"info": "button_pressed"})
+                msg = json.dumps({"info": "pushButton"})
 
                 if self.socket:
                     self.socket.sendMessage(msg.encode('utf8'))
