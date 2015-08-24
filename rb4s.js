@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js alpha_031');
+    console.log('rb4sx.js alpha_032');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -312,6 +312,14 @@
     ext.readPin = function () {
         ucon();
 
+    };
+
+    ext.encCount = function () {
+        if (encoderLeft > encoderRight) {
+            return encoderLeft
+        }
+        else
+            return encoderRight
     };
 
     function ucon() {
