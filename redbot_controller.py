@@ -23,6 +23,7 @@ from pymata_aio.constants import Constants
 from pymata_aio.pymata_core import PymataCore
 
 
+
 # from redbot_accel import RedBotAccel
 # from . import redbot_accel
 from redbot_accel import RedBotAccel
@@ -229,12 +230,21 @@ class RedBotController:
     def button_callback(self, data):
         if self.client_ready:
             # switch is active low
-            if not data[1]:
-                yield from self.board.play_tone(self.pins["BUZZER"], Constants.TONE_TONE, 1000, 250)
-                yield from self.board.digital_write(self.pins["LED"], 1)
-                yield from asyncio.sleep(.3)
-                yield from self.board.digital_write(self.pins["LED"], 0)
-        yield from asyncio.sleep(.001)
+            msg = ""
+            if data == 0:
+                msg = json.dumps({"info": "button_pressed"})
+
+                if self.socket:
+                    self.socket.sendMessage(msg.encode('utf8'))
+
+            asyncio.sleep(.001)
+
+            # if not data[1]:
+            #     yield from self.board.play_tone(self.pins["BUZZER"], Constants.TONE_TONE, 1000, 250)
+            #     yield from self.board.digital_write(self.pins["LED"], 1)
+            #     yield from asyncio.sleep(.3)
+            #     yield from self.board.digital_write(self.pins["LED"], 0)
+            # yield from asyncio.sleep(.001)
 
     @asyncio.coroutine
     def play_tone(self, frequency, duration):
@@ -256,7 +266,7 @@ class RedBotController:
         z = data[2]
 
         angle_xz = 180 * math.atan2(x, z) / math.pi
-        angle_xz= str(float("{0:.2f}".format(angle_xz)))
+        angle_xz = str(float("{0:.2f}".format(angle_xz)))
 
         angle_xy = 180 * math.atan2(x, y) / math.pi
         angle_xy = str(float("{0:.2f}".format(angle_xy)))
@@ -267,7 +277,6 @@ class RedBotController:
         x = str(data[0])
         y = str(data[1])
         z = str(data[2])
-
 
         msg = json.dumps({"info": "axis", "xg": datax, "yg": datay, "zg": dataz,
                           "raw_x": x, "raw_y": y, "raw_z": z,
@@ -333,4 +342,3 @@ if __name__ == "__main__":
         loop.run_until_complete(asyncio.sleep(.1))
 
     loop.run_forever()
-
