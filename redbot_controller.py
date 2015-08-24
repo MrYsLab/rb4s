@@ -172,33 +172,22 @@ class RedBotController:
 
     @asyncio.coroutine
     def left_bumper_callback(self, data):
-        if not self.lbump_wait:
-            if self.client_ready:
-                if not data[1]:
-                    msg = json.dumps({"info": "l_bump", "data": 1})
-                    self.rbump_wait = True
-                    if self.socket:
-                        self.socket.sendMessage(msg.encode('utf8'))
-                    yield from asyncio.sleep(.5)
-                    # msg = json.dumps({"info": "l_bump", "data": 0})
-                    # self.socket.sendMessage(msg.encode('utf8'))
-                    self.rbump_wait = False
-        yield from asyncio.sleep(.001)
+         if self.socket:
+            # switch is active low
+            if data[1] == 0:
+                msg = json.dumps({"info": "l_bump"})
+                self.socket.sendMessage(msg.encode('utf8'))
+                asyncio.sleep(.001)
+
 
     @asyncio.coroutine
     def right_bumper_callback(self, data):
-        if not self.rbump_wait:
-            if self.client_ready:
-                if not data[1]:
-                    msg = json.dumps({"info": "r_bump", "data": 1})
-                    self.rbump_wait = True
-                    if self.socket:
-                        self.socket.sendMessage(msg.encode('utf8'))
-                    yield from asyncio.sleep(.5)
-                    # msg = json.dumps({"info": "r_bump", "data": 0})
-                    # self.socket.sendMessage(msg.encode('utf8'))
-                    self.rbump_wait = False
-        yield from asyncio.sleep(.001)
+         if self.socket:
+            # switch is active low
+            if data[1] == 0:
+                msg = json.dumps({"info": "r_bump"})
+                self.socket.sendMessage(msg.encode('utf8'))
+                asyncio.sleep(.001)
 
     @asyncio.coroutine
     def ir1_callback(self, data):
@@ -306,7 +295,6 @@ class RedBotController:
         if self.socket:
             if data[0] != 0 or data[1] != 0:
                 msg = json.dumps({"info": "encoders", "left": data[0], "right": data[1]})
-                print(msg)
                 self.socket.sendMessage(msg.encode('utf8'))
             asyncio.sleep(.1)
 
