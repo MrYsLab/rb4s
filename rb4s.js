@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js alpha_028');
+    console.log('rb4sx.js alpha_029');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -36,6 +36,11 @@
 
     // pushbutton state
     var pushButton = false;
+    var encoderGoal = false;
+
+    // encoder data
+    var leftEncoder = 0;
+    var rightEncoder = 0
 
     var rVal = 0;
 
@@ -76,7 +81,8 @@
                 case 'encoders':
                     var left = msg['left'];
                     var right = msg['right'];
-                    // console.log('left = ' + left + 'right = ' + right);
+                    leftEncoder += left;
+                    rightEncoder += right;
                     break;
                 case 'ir1':
                     lineSensor1 = msg['data'];
@@ -224,9 +230,14 @@
         return rVal;
     };
 
-    ext.encoder = function () {
-        ucon();
+    ext.encoder = function (value) {
+        if (leftEncoder >=  value || rightEncoder >= value) {
+            leftEncoder = 0;
+            rightEncoder = 0;
+            return true;
+       }
 
+       return false;
     };
 
     ext.coast = function (motor) {
@@ -287,8 +298,8 @@
     };
 
     ext.resetCount = function () {
-        ucon();
-
+        leftEncoder = 0;
+        rightEncoder = 0;
     };
 
     ext.writePin = function () {
