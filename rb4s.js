@@ -34,13 +34,18 @@
     var yAngle = 0;
     var zAngle = 0;
 
+    var tap = false;
+
     // pushbutton state
     var pushButton = false;
-    var encoderGoal = false;
 
     // encoder data
     var leftEncoder = 0;
     var rightEncoder = 0;
+
+    // bumpers
+    var leftBumper = false;
+    var rightBumper = false;
 
     var rVal = 0;
 
@@ -102,14 +107,14 @@
                     // $('#orientation').val(val);
                     break;
                 case 'tap':
-
+                    tap = true;
                     break;
                 case 'l_bump':
                     rVal = msg['data'];
-
+                    leftBumper = true;
                     break;
                 case 'r_bump':
-
+                    rightBumper = true;
                     break;
             }
         };
@@ -289,8 +294,22 @@
     };
 
     ext.tap = function () {
-        ucon();
+        if (tap === true) {
+           tap = false;
+           return true;
+       }
+       return false;
+    };
 
+
+    ext.bumpers = function (lr) {
+        if(lr === 'Left') {
+            leftBumper = true;
+        }
+        else {
+            rightBumper = true;
+       }
+       return false;
     };
 
     ext.override = function () {
