@@ -22,10 +22,6 @@ import math
 from pymata_aio.constants import Constants
 from pymata_aio.pymata_core import PymataCore
 
-
-
-# from redbot_accel import RedBotAccel
-# from . import redbot_accel
 from redbot_accel import RedBotAccel
 
 
@@ -165,15 +161,14 @@ class RedBotController:
 
     @asyncio.coroutine
     def get_accel_data(self):
-        while True:
-            avail = yield from self.accel.available()
-            if not avail:
-                yield from asyncio.sleep(.001)
-                continue
-            yield from self.accel.read(self.accel_axis_callback)
-            yield from self.accel.read_portrait_landscape(self.accel_pl_callback)
-            yield from self.accel.read_tap(self.accel_tap_callback)
+        avail = yield from self.accel.available()
+        if not avail:
             yield from asyncio.sleep(.001)
+            return
+        yield from self.accel.read(self.accel_axis_callback)
+        yield from self.accel.read_portrait_landscape(self.accel_pl_callback)
+        yield from self.accel.read_tap(self.accel_tap_callback)
+        yield from asyncio.sleep(.001)
 
     @asyncio.coroutine
     def left_bumper_callback(self, data):
@@ -228,23 +223,13 @@ class RedBotController:
 
     @asyncio.coroutine
     def button_callback(self, data):
-        if self.client_ready:
+        # if self.client_ready:
+        if self.socket:
             # switch is active low
-            msg = ""
-            if data == 0:
+            if data[1] == 0:
                 msg = json.dumps({"info": "pushButton"})
-
-                if self.socket:
-                    self.socket.sendMessage(msg.encode('utf8'))
-
+                self.socket.sendMessage(msg.encode('utf8'))
             asyncio.sleep(.001)
-
-            # if not data[1]:
-            #     yield from self.board.play_tone(self.pins["BUZZER"], Constants.TONE_TONE, 1000, 250)
-            #     yield from self.board.digital_write(self.pins["LED"], 1)
-            #     yield from asyncio.sleep(.3)
-            #     yield from self.board.digital_write(self.pins["LED"], 0)
-            # yield from asyncio.sleep(.001)
 
     @asyncio.coroutine
     def play_tone(self, frequency, duration):
