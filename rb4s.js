@@ -189,7 +189,7 @@
 
 
     ext.accel = function (axis, dataType) {
-        console.log('axis: ' + axis + ' dataType: ' + dataType)
+        console.log('axis: ' + axis + ' dataType: ' + dataType);
         switch (dataType) {
             case " g's ":
                 switch (axis) {
@@ -361,13 +361,17 @@
             [' ', 'Brake %m.motor motor', 'brake', 'Left'],
             [' ', 'LED 13 %m.ledState', 'ledControl', 'On'],
             [' ', 'Play Tone  %n Hz  %n ms', 'playTone', '1000', '500'],
-            [' ', 'Reset Encoder Count', 'resetCount'],
+            [' ', 'Reset Encoder Count', 'resetLCount'],
+            [' ', 'Reset Encoder Count', 'resetRCount'],
             ['h', 'When User Button Is Pushed', 'hatPushButton'],
             ['h', 'When left bumper activates', 'leftBump'],
             ['h', 'When right bumper activates', 'rightBump'],
             ['h', 'When tap sensor activates', 'tap'],
-            ['h', 'When encoder count > %n', 'encoder'],
-            ['r', 'Encoder Count', 'encCount'],
+            ['h', 'When left encoder count > %n', 'lencoder'],
+            ['h', 'When right encoder count > %n', 'rencoder'],
+            ['h', 'When orientation = %m.orient', 'position', 'Flat'],
+            ['r', 'Left Encoder Count', 'encLCount'],
+            ['r', 'Right Encoder Count', 'encRCount'],
             ['r', 'Line Sensor %m.lineFollower', 'lineFollower', '1'],
             ['r', 'Accelerometer: %m.axis axis %m.accelData', 'accel', 'X', " g's "],
             [' ', 'Pin Mode Override: Pin %m.pin Mode: %m.mode', 'override', '3', 'Output'],
@@ -384,7 +388,8 @@
             speeds: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
             pin: ['2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '16'],
             mode: ['Output', 'PWM', 'Servo', 'SONAR'],
-            accelData: [" g's ", 'Angle', "Raw"]
+            accelData: [" g's ", 'Angle', "Raw"],
+            orient: ['Flat', 'Tilt Up', 'Tilt Down', 'Tilt Left', 'Tilt Right']
         },
         url: 'http://MrYsLab.github.io/rb4s'
     };
