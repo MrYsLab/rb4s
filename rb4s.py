@@ -24,8 +24,8 @@ import webbrowser
 
 from autobahn.asyncio.websocket import WebSocketServerProtocol, \
     WebSocketServerFactory
-from pymata_aio.pymata_core import PymataCore
 
+from pymata_aio.pymata_core import PymataCore
 from redbot_controller import RedBotController
 
 
@@ -110,21 +110,25 @@ class RB4S(WebSocketServerProtocol):
             yield from self.my_core.shutdown()
 
         elif client_cmd == 'ready':
-            print('connected to scratchx page')
+            print('connected to Scratch_X page')
 
         else:
             print("unknown command from scratch: " + client_cmd)
 
+    def onClose(self, wasClean, code, reason):
+        print("WebSocket connection closed: {0}".format(reason))
+        yield from self.rb_control.motor_control(self.rb_control.LEFT_MOTOR, self.rb_control.COAST, 0)
 
-        def onClose(self, wasClean, code, reason):
-            print("WebSocket connection closed: {0}".format(reason))
-            yield from self.rb_control.motor_control(self.rb_control.LEFT_MOTOR, self.rb_control.COAST, 0)
-
-            yield from self.rb_control.motor_control(self.rb_control.RIGHT_MOTOR, self.rb_control.COAST, 0)
-            yield from self.my_core.shutdown()
+        yield from self.rb_control.motor_control(self.rb_control.RIGHT_MOTOR, self.rb_control.COAST, 0)
+        yield from self.my_core.shutdown()
 
 
 if __name__ == '__main__':
+
+    new = 2
+
+    url = "http://scratchx.org/?url=http://MrYsLab.github.io/rb4s/rb4s.js"
+    webbrowser.open(url, new=new)
 
     factory = WebSocketServerFactory("ws://127.0.0.1:9000", debug=False)
     factory.protocol = RB4S
@@ -138,16 +142,9 @@ if __name__ == '__main__':
 
     rbc = RedBotController(my_core)
 
-    #loop.run_until_complete(rbc.init_red_board())
     factory.protocol.rb_control = rbc
     factory.protocol.my_core = my_core
     loop.run_until_complete(rbc.init_red_board())
-
-
-    new = 2
-
-    url = "http://scratchx.org/?url=http://MrYsLab.github.io/rb4s/rb4s.js"
-    webbrowser.open(url, new=new)
 
     try:
         while True:
