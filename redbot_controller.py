@@ -172,17 +172,16 @@ class RedBotController:
 
     @asyncio.coroutine
     def left_bumper_callback(self, data):
-         if self.socket:
+        if self.socket:
             # switch is active low
             if data[1] == 0:
                 msg = json.dumps({"info": "l_bump"})
                 self.socket.sendMessage(msg.encode('utf8'))
                 asyncio.sleep(.001)
 
-
     @asyncio.coroutine
     def right_bumper_callback(self, data):
-         if self.socket:
+        if self.socket:
             # switch is active low
             if data[1] == 0:
                 msg = json.dumps({"info": "r_bump"})

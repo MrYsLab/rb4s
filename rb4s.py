@@ -45,7 +45,6 @@ class RB4S(WebSocketServerProtocol):
     def onMessage(self, payload, isBinary):
 
         cmd_dict = json.loads(payload.decode('utf8'))
-        # print(cmd_dict)
 
         client_cmd = cmd_dict.get("command")
 
