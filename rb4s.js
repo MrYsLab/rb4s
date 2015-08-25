@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js alpha_037');
+    console.log('rb4sx.js alpha_038');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -361,8 +361,8 @@
             [' ', 'Brake %m.motor motor', 'brake', 'Left'],
             [' ', 'LED 13 %m.ledState', 'ledControl', 'On'],
             [' ', 'Play Tone  %n Hz  %n ms', 'playTone', '1000', '500'],
-            [' ', 'Reset Encoder Count', 'resetLCount'],
-            [' ', 'Reset Encoder Count', 'resetRCount'],
+            [' ', 'Reset Left Encoder Count', 'resetLCount'],
+            [' ', 'Reset Right Encoder Count', 'resetRCount'],
             ['h', 'When User Button Is Pushed', 'hatPushButton'],
             ['h', 'When left bumper activates', 'leftBump'],
             ['h', 'When right bumper activates', 'rightBump'],
