@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js alpha_038');
+    console.log('rb4sx.js alpha_039');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -235,13 +235,19 @@
         return rVal;
     };
 
-    ext.encoder = function (value) {
-        if (leftEncoder >= value || rightEncoder >= value) {
+    ext.lencoder = function (value) {
+        if (leftEncoder >= value ) {
             leftEncoder = 0;
+            return true;
+        }
+        return false;
+    };
+
+    ext.rencoder = function (value) {
+        if (rightEncoder >= value ) {
             rightEncoder = 0;
             return true;
         }
-
         return false;
     };
 
@@ -322,11 +328,15 @@
 
     };
 
-    ext.resetCount = function () {
-        console.log('left: ' + leftEncoder);
+    ext.resetLCount = function () {
         leftEncoder = 0;
-        rightEncoder = 0;
     };
+
+    ext.resetRCount = function () {
+        rightEncoder = 0;
+
+    };
+
 
     ext.writePin = function () {
         ucon();
@@ -338,12 +348,12 @@
 
     };
 
-    ext.encCount = function () {
-        if (leftEncoder > rightEncoder) {
-            return leftEncoder
-        }
-        else
-            return rightEncoder
+    ext.encLCount = function () {
+            return leftEncoder;
+    };
+
+    ext.encRCount = function () {
+            return rightEncoder;
     };
 
     function ucon() {
@@ -386,8 +396,8 @@
             bumper: ['Left', 'Right'],
             axis: ['X', 'Y', 'Z'],
             speeds: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-            pin: ['2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '16'],
-            mode: ['Output', 'PWM', 'Servo', 'SONAR'],
+            pin: ['3', '10', '11'],
+            mode: ['PWM', 'Servo', 'SONAR'],
             accelData: [" g's ", 'Angle', "Raw"],
             orient: ['Flat', 'Tilt Up', 'Tilt Down', 'Tilt Left', 'Tilt Right']
         },
