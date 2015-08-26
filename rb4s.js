@@ -3,16 +3,15 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js alpha_041');
+    console.log('rb4sx.js alpha_042');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
     // Variable is set by user through a Scratch command block
-    var debugLevel = 2;
+    var debugLevel = 0;
 
     //var device = null;
     var socket = null;
-    var isopen = false;
 
     var connected = false;
 
@@ -56,14 +55,16 @@
     var myMsg = 'not_ready';
 
     ext.cnct = function () {
-        console.log('loaded');
+        if(debugLevel)
+            console.log('Connecting to Server');
         window.socket = new WebSocket("ws://127.0.0.1:9000");
         window.socket.onopen = function () {
             var msg = JSON.stringify({
                 "command": "ready"
             });
             window.socket.send(msg);
-            console.log("Connected!");
+            if(debugLevel)
+                console.log("Connected!");
             myStatus = 2;
             myMsg = 'ready';
             connected = true;
@@ -71,6 +72,8 @@
 
         window.socket.onmessage = function (message) {
             var msg = JSON.parse(message.data);
+            if (debugLevel)
+                console.log(msg);
             switch (msg['info']) {
                 case 'axis':
                     xRaw = msg['raw_x'];
@@ -90,7 +93,6 @@
                     var right = msg['right'];
                     leftEncoder += left;
                     rightEncoder += right;
-                    console.log("L: " + leftEncoder + "R: " + rightEncoder);
                     break;
                 case 'ir1':
                     lineSensor1 = msg['data'];
@@ -141,7 +143,7 @@
 
     // Status reporting code
     // Use this to report missing hardware, plugin or unsupported browser
-    ext._getStatus = function (status, msg) {
+    ext._getStatus = function (myStatus, myMsg) {
         return {status: myStatus, msg: myMsg};
     };
 
@@ -153,7 +155,8 @@
             var msg = JSON.stringify({
                 "command": "motors", "motor": wheel, "operation": operation, "speed": speed
             });
-            console.log(msg);
+            if (debugLevel)
+                 console.log(msg);
             window.socket.send(msg);
         }
     };
@@ -166,7 +169,8 @@
             var msg = JSON.stringify({
                 "command": "led", "state": state
             });
-            console.log(msg);
+            if (debugLevel)
+                console.log(msg);
             window.socket.send(msg);
         }
     };
@@ -235,7 +239,6 @@
                 }
                 break;
         }
-        console.log('rval: ' + rVal);
         return rVal;
     };
 
@@ -261,7 +264,8 @@
             var msg = JSON.stringify({
                 "command": 'coast', 'motor': motor
             });
-            console.log(msg);
+            if (debugLevel)
+                console.log(msg);
             window.socket.send(msg);
         }
     };
@@ -272,7 +276,8 @@
         }
         else {
             var msg = JSON.stringify({"command": 'brake', 'motor': motor});
-            console.log(msg);
+            if (debugLevel)
+                console.log(msg);
             window.socket.send(msg);
         }
     };
@@ -285,7 +290,8 @@
             var msg = JSON.stringify({
                 "command": 'tone', 'frequency': frequency, 'duration': duration
             });
-            console.log(msg);
+            if (debugLevel)
+                console.log(msg);
             window.socket.send(msg);
         }
 
@@ -361,6 +367,15 @@
             return rightEncoder;
     };
 
+    ext.debug = function (level) {
+        if (level === 'On') {
+            debugLevel = 1;
+        }
+        else {
+            debugLevel = 0;
+        }
+    };
+
     function ucon() {
         alert("Under Construction");
     }
@@ -374,10 +389,11 @@
             [' ', 'Move %m.motor wheel %m.operation Speed = %m.speeds ', 'motorControl', 'Left', 'Forward', '1'],
             [' ', 'Coast %m.motor motor', 'coast', 'Left'],
             [' ', 'Brake %m.motor motor', 'brake', 'Left'],
-            [' ', 'LED 13 %m.ledState', 'ledControl', 'On'],
+            [' ', 'LED 13 %m.state', 'ledControl', 'On'],
             [' ', 'Play Tone  %n Hz  %n ms', 'playTone', '1000', '500'],
             [' ', 'Reset Left Encoder Count', 'resetLCount'],
             [' ', 'Reset Right Encoder Count', 'resetRCount'],
+            [' ', 'Debug %m.state', 'debug', 'Off'],
             ['h', 'When User Button Is Pushed', 'hatPushButton'],
             ['h', 'When left bumper activates', 'leftBump'],
             ['h', 'When right bumper activates', 'rightBump'],
@@ -386,14 +402,14 @@
             ['h', 'When right encoder count > %n', 'rencoder'],
             ['r', 'Left Encoder Count', 'encLCount'],
             ['r', 'Right Encoder Count', 'encRCount'],
+            ['r', 'Orientation', 'position'],
             ['r', 'Line Sensor %m.lineFollower', 'lineFollower', '1'],
-            ['r', 'Accelerometer: %m.axis axis %m.accelData', 'accel', 'X', " g's "],
-            ['r', 'Orientation', 'position']
+            ['r', 'Accelerometer: %m.axis axis %m.accelData', 'accel', 'X', " g's "]
         ],
         menus: {
             motor: ['Left', 'Right'],
             operation: ['Forward', 'Reverse'],
-            ledState: ['On', 'Off'],
+            state: ['On', 'Off'],
             lineFollower: ['1', '2', '3'],
             bumper: ['Left', 'Right'],
             axis: ['X', 'Y', 'Z'],
