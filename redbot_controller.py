@@ -260,9 +260,8 @@ class RedBotController:
 
     @asyncio.coroutine
     def accel_pl_callback(self, data):
-
         if data == 0x40:
-            port_land = 'Flat   '
+            port_land = 'Flat'
         elif data == 0:
             port_land = 'Tilt Left'
         elif data == 1:
