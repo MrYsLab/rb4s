@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js alpha_043');
+    console.log('rb4sx.js alpha_044');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -197,7 +197,8 @@
 
 
     ext.accel = function (axis, dataType) {
-        console.log('axis: ' + axis + ' dataType: ' + dataType);
+        if(debugLevel)
+            console.log('axis: ' + axis + ' dataType: ' + dataType);
         switch (dataType) {
             case " g's ":
                 switch (axis) {
