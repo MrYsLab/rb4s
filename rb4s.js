@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js alpha_040');
+    console.log('rb4sx.js alpha_041');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -241,7 +241,6 @@
 
     ext.lencoder = function (value) {
         if (leftEncoder >= value) {
-            leftEncoder = 0;
             return true;
         }
         return false;
@@ -249,7 +248,6 @@
 
     ext.rencoder = function (value) {
         if (rightEncoder >= value) {
-            rightEncoder = 0;
             return true;
         }
         return false;
