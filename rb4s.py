@@ -124,11 +124,6 @@ class RB4S(WebSocketServerProtocol):
 
 if __name__ == '__main__':
 
-    new = 2
-
-    url = "http://scratchx.org/?url=http://MrYsLab.github.io/rb4s/rb4s.js"
-    webbrowser.open(url, new=new)
-
     factory = WebSocketServerFactory("ws://127.0.0.1:9000", debug=False)
     factory.protocol = RB4S
 
@@ -144,6 +139,11 @@ if __name__ == '__main__':
     factory.protocol.rb_control = rbc
     factory.protocol.my_core = my_core
     loop.run_until_complete(rbc.init_red_board())
+
+    new = 2
+
+    url = "http://scratchx.org/?url=http://MrYsLab.github.io/rb4s/rb4s.js"
+    webbrowser.open(url, new=new)
 
     try:
         while True:
