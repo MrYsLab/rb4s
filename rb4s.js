@@ -3,7 +3,7 @@
  */
 (function (ext) {
 
-    console.log('rb4sx.js alpha_039');
+    console.log('rb4sx.js alpha_040');
     // 0 = no debug
     // 1 = low level debug
     // 2 = high - open the floodgates
@@ -35,6 +35,8 @@
     var zAngle = 0;
 
     var tap = false;
+
+    var orientation = "Flat";
 
     // pushbutton state
     var pushButton = false;
@@ -103,8 +105,7 @@
                     pushButton = true;
                     break;
                 case 'pl':
-                    // val = msg['data'];
-                    // $('#orientation').val(val);
+                    orientation = msg['data'];
                     break;
                 case 'tap':
                     tap = true;
@@ -115,6 +116,9 @@
                 case 'r_bump':
                     rightBumper = true;
                     break;
+
+
+                //"info": "pl", "data": port_land})
             }
         };
         //noinspection JSUnusedLocalSymbols
@@ -236,7 +240,7 @@
     };
 
     ext.lencoder = function (value) {
-        if (leftEncoder >= value ) {
+        if (leftEncoder >= value) {
             leftEncoder = 0;
             return true;
         }
@@ -244,7 +248,7 @@
     };
 
     ext.rencoder = function (value) {
-        if (rightEncoder >= value ) {
+        if (rightEncoder >= value) {
             rightEncoder = 0;
             return true;
         }
@@ -307,7 +311,7 @@
     };
 
 
-   ext.leftBump = function () {
+    ext.leftBump = function () {
         if (leftBumper === true) {
             leftBumper = false;
             return true;
@@ -315,12 +319,16 @@
         return false;
     };
 
-   ext.rightBump = function () {
+    ext.rightBump = function () {
         if (rightBumper === true) {
             rightBumper = false;
             return true;
         }
         return false;
+    };
+
+    ext.position = function () {
+    return orientation;
     };
 
     ext.override = function () {
@@ -336,7 +344,6 @@
         rightEncoder = 0;
 
     };
-
 
     ext.writePin = function () {
         ucon();
@@ -379,14 +386,11 @@
             ['h', 'When tap sensor activates', 'tap'],
             ['h', 'When left encoder count > %n', 'lencoder'],
             ['h', 'When right encoder count > %n', 'rencoder'],
-            ['h', 'When orientation = %m.orient', 'position', 'Flat'],
             ['r', 'Left Encoder Count', 'encLCount'],
             ['r', 'Right Encoder Count', 'encRCount'],
             ['r', 'Line Sensor %m.lineFollower', 'lineFollower', '1'],
             ['r', 'Accelerometer: %m.axis axis %m.accelData', 'accel', 'X', " g's "],
-            [' ', 'Pin Mode Override: Pin %m.pin Mode: %m.mode', 'override', '3', 'Output'],
-            ['r', 'Read Pin %m.pin', 'readPin', '3'],
-            ['r', 'Write Pin %m.pin: Value = %n', 'writePin', '3', '0']
+            ['r', 'Orientation', 'position']
         ],
         menus: {
             motor: ['Left', 'Right'],
