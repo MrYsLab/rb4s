@@ -350,16 +350,6 @@
 
     };
 
-    ext.writePin = function () {
-        ucon();
-
-    };
-
-    ext.readPin = function () {
-        ucon();
-
-    };
-
     ext.encLCount = function () {
             return leftEncoder;
     };
