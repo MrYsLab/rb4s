@@ -1,3 +1,6 @@
+![standardfirmata](https://github.com/MrYsLab/rb4s/blob/gh-pages/images/rb4sLogo.png)
+
+
 # rb4s
 RedBot Controller for ScratchX
 
