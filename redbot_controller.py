@@ -25,6 +25,7 @@ from pymata_aio.pymata_core import PymataCore
 from redbot_accel import RedBotAccel
 
 
+# noinspection PyPep8
 class RedBotController:
     pins = {"LEFT_BUMPER": 3, "RIGHT_BUMPER": 11, "BUTTON_SWITCH": 12, "BUZZER": 9, "IR_SENSOR_1": 3,
             "IR_SENSOR_2": 6, "IR_SENSOR_3": 7, "LEFT_ENCODER": 16, "RIGHT_ENCODER": 10,
@@ -59,119 +60,113 @@ class RedBotController:
         self.board = board
         self.accel_read_enable = False
 
-    @asyncio.coroutine
-    def init_red_board(self):
-        yield from self.board.start_aio()
+    async def init_red_board(self):
+        await self.board.start_aio()
 
         self.accel = RedBotAccel(self.board, 0x1d, 2, 0)
 
         #  ir sensors
-        yield from self.board.set_pin_mode(self.pins["IR_SENSOR_1"], Constants.ANALOG, self.ir1_callback,
+        await self.board.set_pin_mode(self.pins["IR_SENSOR_1"], Constants.ANALOG, self.ir1_callback,
                                            Constants.CB_TYPE_ASYNCIO)
-        yield from self.board.set_pin_mode(self.pins["IR_SENSOR_2"], Constants.ANALOG, self.ir2_callback,
+        await self.board.set_pin_mode(self.pins["IR_SENSOR_2"], Constants.ANALOG, self.ir2_callback,
                                            Constants.CB_TYPE_ASYNCIO)
-        yield from self.board.set_pin_mode(self.pins["IR_SENSOR_3"], Constants.ANALOG, self.ir3_callback,
+        await self.board.set_pin_mode(self.pins["IR_SENSOR_3"], Constants.ANALOG, self.ir3_callback,
                                            Constants.CB_TYPE_ASYNCIO)
 
-        yield from self.board.set_pin_mode(3, Constants.INPUT, self.left_bumper_callback, Constants.CB_TYPE_ASYNCIO)
-        yield from self.board.digital_write(3, 1)
+        await self.board.set_pin_mode(3, Constants.INPUT, self.left_bumper_callback, Constants.CB_TYPE_ASYNCIO)
+        await self.board.digital_write(3, 1)
 
-        yield from self.board.set_pin_mode(self.pins["LED"], Constants.OUTPUT)
+        await self.board.set_pin_mode(self.pins["LED"], Constants.OUTPUT)
 
         # motors
-        yield from self.board.set_pin_mode(self.pins["LEFT_MOTOR_CONTROL_1"], Constants.OUTPUT)
-        yield from self.board.set_pin_mode(self.pins["LEFT_MOTOR_CONTROL_2"], Constants.OUTPUT)
-        yield from self.board.set_pin_mode(self.pins["RIGHT_MOTOR_CONTROL_1"], Constants.OUTPUT)
-        yield from self.board.set_pin_mode(self.pins["RIGHT_MOTOR_CONTROL_2"], Constants.OUTPUT)
+        await self.board.set_pin_mode(self.pins["LEFT_MOTOR_CONTROL_1"], Constants.OUTPUT)
+        await self.board.set_pin_mode(self.pins["LEFT_MOTOR_CONTROL_2"], Constants.OUTPUT)
+        await self.board.set_pin_mode(self.pins["RIGHT_MOTOR_CONTROL_1"], Constants.OUTPUT)
+        await self.board.set_pin_mode(self.pins["RIGHT_MOTOR_CONTROL_2"], Constants.OUTPUT)
 
-        yield from self.board.set_pin_mode(self.pins["LEFT_MOTOR_SPEED"], Constants.PWM)
-
-        # set speed to zero
-        yield from self.board.analog_write(self.pins["LEFT_MOTOR_SPEED"], 0)
-
-        yield from self.board.set_pin_mode(self.pins["RIGHT_MOTOR_SPEED"], Constants.PWM)
+        await self.board.set_pin_mode(self.pins["LEFT_MOTOR_SPEED"], Constants.PWM)
 
         # set speed to zero
-        yield from self.board.analog_write(self.pins["RIGHT_MOTOR_SPEED"], 0)
+        await self.board.analog_write(self.pins["LEFT_MOTOR_SPEED"], 0)
+
+        await self.board.set_pin_mode(self.pins["RIGHT_MOTOR_SPEED"], Constants.PWM)
+
+        # set speed to zero
+        await self.board.analog_write(self.pins["RIGHT_MOTOR_SPEED"], 0)
 
         # initialize digital inputs that require pull-ups enabled
-        yield from self.board.set_pin_mode(self.pins["BUTTON_SWITCH"], Constants.INPUT, self.button_callback,
+        await self.board.set_pin_mode(self.pins["BUTTON_SWITCH"], Constants.INPUT, self.button_callback,
                                            Constants.CB_TYPE_ASYNCIO)
-        yield from self.board.digital_write(self.pins["BUTTON_SWITCH"], 1)
+        await self.board.digital_write(self.pins["BUTTON_SWITCH"], 1)
 
         # initialize bumper pins
-        yield from self.board.set_pin_mode(self.pins["LEFT_BUMPER"], Constants.INPUT,
+        await self.board.set_pin_mode(self.pins["LEFT_BUMPER"], Constants.INPUT,
                                            self.left_bumper_callback, Constants.CB_TYPE_ASYNCIO)
-        yield from self.board.digital_write(self.pins["LEFT_BUMPER"], 1)
+        await self.board.digital_write(self.pins["LEFT_BUMPER"], 1)
 
-        yield from self.board.set_pin_mode(self.pins["RIGHT_BUMPER"], Constants.INPUT, self.right_bumper_callback,
+        await self.board.set_pin_mode(self.pins["RIGHT_BUMPER"], Constants.INPUT, self.right_bumper_callback,
                                            Constants.CB_TYPE_ASYNCIO)
-        yield from self.board.digital_write(self.pins["RIGHT_BUMPER"], 1)
-        yield from self.accel.start()
+        await self.board.digital_write(self.pins["RIGHT_BUMPER"], 1)
+        await self.accel.start()
 
         # enable encoders
-        yield from self.board.encoder_config(self.pins["LEFT_ENCODER"], self.pins["RIGHT_ENCODER"],
+        await self.board.encoder_config(self.pins["LEFT_ENCODER"], self.pins["RIGHT_ENCODER"],
                                              self.left_encoder_callback, Constants.CB_TYPE_ASYNCIO, True)
-
         return True
 
-    @asyncio.coroutine
-    def motor_control(self, motor, command, speed=None):
+    async def motor_control(self, motor, command, speed=None):
         if motor == self.LEFT_MOTOR:
             if command == self.BRAKE:
-                yield from self.board.digital_write(self.pins["LEFT_MOTOR_CONTROL_1"], 1)
-                yield from self.board.digital_write(self.pins["LEFT_MOTOR_CONTROL_2"], 1)
+                await self.board.digital_write(self.pins["LEFT_MOTOR_CONTROL_1"], 1)
+                await self.board.digital_write(self.pins["LEFT_MOTOR_CONTROL_2"], 1)
                 return
             elif command == self.FORWARD:
-                yield from self.board.digital_write(self.pins["LEFT_MOTOR_CONTROL_1"], 1)
-                yield from self.board.digital_write(self.pins["LEFT_MOTOR_CONTROL_2"], 0)
+                await self.board.digital_write(self.pins["LEFT_MOTOR_CONTROL_1"], 1)
+                await self.board.digital_write(self.pins["LEFT_MOTOR_CONTROL_2"], 0)
             elif command == self.REVERSE:  # must be
-                yield from self.board.digital_write(self.pins["LEFT_MOTOR_CONTROL_1"], 0)
-                yield from self.board.digital_write(self.pins["LEFT_MOTOR_CONTROL_2"], 1)
+                await self.board.digital_write(self.pins["LEFT_MOTOR_CONTROL_1"], 0)
+                await self.board.digital_write(self.pins["LEFT_MOTOR_CONTROL_2"], 1)
             else:  # default is coast
-                yield from self.board.digital_write(self.pins["LEFT_MOTOR_CONTROL_1"], 0)
-                yield from self.board.digital_write(self.pins["LEFT_MOTOR_CONTROL_2"], 0)
+                await self.board.digital_write(self.pins["LEFT_MOTOR_CONTROL_1"], 0)
+                await self.board.digital_write(self.pins["LEFT_MOTOR_CONTROL_2"], 0)
                 return
             # set speed for forward and reverse if specified
             if speed:
-                yield from self.board.analog_write(self.pins["LEFT_MOTOR_SPEED"], speed)
+                await self.board.analog_write(self.pins["LEFT_MOTOR_SPEED"], speed)
         else:
             if command == self.BRAKE:
-                yield from self.board.digital_write(self.pins["RIGHT_MOTOR_CONTROL_1"], 1)
-                yield from self.board.digital_write(self.pins["RIGHT_MOTOR_CONTROL_2"], 1)
+                await self.board.digital_write(self.pins["RIGHT_MOTOR_CONTROL_1"], 1)
+                await self.board.digital_write(self.pins["RIGHT_MOTOR_CONTROL_2"], 1)
                 return
             elif command == self.FORWARD:
-                yield from self.board.digital_write(self.pins["RIGHT_MOTOR_CONTROL_1"], 1)
-                yield from self.board.digital_write(self.pins["RIGHT_MOTOR_CONTROL_2"], 0)
+                await self.board.digital_write(self.pins["RIGHT_MOTOR_CONTROL_1"], 1)
+                await self.board.digital_write(self.pins["RIGHT_MOTOR_CONTROL_2"], 0)
             elif command == self.REVERSE:  # must be
-                yield from self.board.digital_write(self.pins["RIGHT_MOTOR_CONTROL_1"], 0)
-                yield from self.board.digital_write(self.pins["RIGHT_MOTOR_CONTROL_2"], 1)
+                await self.board.digital_write(self.pins["RIGHT_MOTOR_CONTROL_1"], 0)
+                await self.board.digital_write(self.pins["RIGHT_MOTOR_CONTROL_2"], 1)
             else:  # default is coast
-                yield from self.board.digital_write(self.pins["RIGHT_MOTOR_CONTROL_1"], 0)
-                yield from self.board.digital_write(self.pins["RIGHT_MOTOR_CONTROL_2"], 0)
+                await self.board.digital_write(self.pins["RIGHT_MOTOR_CONTROL_1"], 0)
+                await self.board.digital_write(self.pins["RIGHT_MOTOR_CONTROL_2"], 0)
                 return
             # set speed for forward and reverse if specified
             if speed:
-                yield from self.board.analog_write(self.pins["RIGHT_MOTOR_SPEED"], speed)
+                await self.board.analog_write(self.pins["RIGHT_MOTOR_SPEED"], speed)
 
-    @asyncio.coroutine
-    def send_msg(self, msg):
+    async def send_msg(self, msg):
         self.socket.sendMessage(msg)
-        yield from asyncio.sleep(1)
+        await asyncio.sleep(1)
 
-    @asyncio.coroutine
-    def get_accel_data(self):
-        avail = yield from self.accel.available()
+    async def get_accel_data(self):
+        avail = await self.accel.available()
         if not avail:
-            yield from asyncio.sleep(.001)
+            await asyncio.sleep(.001)
             return
-        yield from self.accel.read(self.accel_axis_callback)
-        yield from self.accel.read_portrait_landscape(self.accel_pl_callback)
-        yield from self.accel.read_tap(self.accel_tap_callback)
-        yield from asyncio.sleep(.001)
+        await self.accel.read(self.accel_axis_callback)
+        await self.accel.read_portrait_landscape(self.accel_pl_callback)
+        await self.accel.read_tap(self.accel_tap_callback)
+        await asyncio.sleep(.001)
 
-    @asyncio.coroutine
-    def left_bumper_callback(self, data):
+    async def left_bumper_callback(self, data):
         if self.socket:
             # switch is active low
             if data[1] == 0:
@@ -179,8 +174,7 @@ class RedBotController:
                 self.socket.sendMessage(msg.encode('utf8'))
                 asyncio.sleep(.001)
 
-    @asyncio.coroutine
-    def right_bumper_callback(self, data):
+    async def right_bumper_callback(self, data):
         if self.socket:
             # switch is active low
             if data[1] == 0:
@@ -188,29 +182,25 @@ class RedBotController:
                 self.socket.sendMessage(msg.encode('utf8'))
                 asyncio.sleep(.001)
 
-    @asyncio.coroutine
-    def ir1_callback(self, data):
+    async def ir1_callback(self, data):
         msg = json.dumps({"info": "ir1", "data": data[1]})
         if self.socket:
             self.socket.sendMessage(msg.encode('utf8'))
-        yield from asyncio.sleep(.001)
+        await asyncio.sleep(.001)
 
-    @asyncio.coroutine
-    def ir2_callback(self, data):
+    async def ir2_callback(self, data):
         msg = json.dumps({"info": "ir2", "data": data[1]})
         if self.socket:
             self.socket.sendMessage(msg.encode('utf8'))
-        yield from asyncio.sleep(.001)
+        await asyncio.sleep(.001)
 
-    @asyncio.coroutine
-    def ir3_callback(self, data):
+    async def ir3_callback(self, data):
         msg = json.dumps({"info": "ir3", "data": data[1]})
         if self.socket:
             self.socket.sendMessage(msg.encode('utf8'))
-        yield from asyncio.sleep(.001)
+        await asyncio.sleep(.001)
 
-    @asyncio.coroutine
-    def button_callback(self, data):
+    async def button_callback(self, data):
         # if self.client_ready:
         if self.socket:
             # switch is active low
@@ -219,16 +209,13 @@ class RedBotController:
                 self.socket.sendMessage(msg.encode('utf8'))
             asyncio.sleep(.001)
 
-    @asyncio.coroutine
-    def play_tone(self, frequency, duration):
-        yield from self.board.play_tone(self.pins["BUZZER"], Constants.TONE_TONE, frequency, duration)
+    async def play_tone(self, frequency, duration):
+        await self.board.play_tone(self.pins["BUZZER"], Constants.TONE_TONE, frequency, duration)
 
-    @asyncio.coroutine
-    def set_led(self, state):
-        yield from self.board.digital_write(self.pins["LED"], state)
+    async def set_led(self, state):
+        await self.board.digital_write(self.pins["LED"], state)
 
-    @asyncio.coroutine
-    def accel_axis_callback(self, data):
+    async def accel_axis_callback(self, data):
 
         datax = str(float("{0:.2f}".format(data[3])))
         datay = str(float("{0:.2f}".format(data[4])))
@@ -258,8 +245,7 @@ class RedBotController:
             self.socket.sendMessage(msg.encode('utf8'))
         asyncio.sleep(.001)
 
-    @asyncio.coroutine
-    def accel_pl_callback(self, data):
+    async def accel_pl_callback(self, data):
         if data == 0x40:
             port_land = 'Flat'
         elif data == 0:
@@ -276,20 +262,18 @@ class RedBotController:
             self.socket.sendMessage(msg.encode('utf8'))
         asyncio.sleep(.001)
 
-    @asyncio.coroutine
-    def accel_tap_callback(self, data):
+    async def accel_tap_callback(self, data):
         if data:
             msg = json.dumps({"info": "tap", "data": data})
             if self.socket:
                 self.socket.sendMessage(msg.encode('utf8'))
-                yield from asyncio.sleep(1)
+                await asyncio.sleep(1)
             msg = json.dumps({"info": "tap", "data": 0})
             if self.socket:
                 self.socket.sendMessage(msg.encode('utf8'))
         asyncio.sleep(.001)
 
-    @asyncio.coroutine
-    def left_encoder_callback(self, data):
+    async def left_encoder_callback(self, data):
         if self.socket:
             if data[0] != 0 or data[1] != 0:
                 msg = json.dumps({"info": "encoders", "left": data[0], "right": data[1]})
@@ -307,8 +291,8 @@ if __name__ == "__main__":
 
     rbc = RedBotController(my_core)
     loop.run_until_complete(rbc.init_red_board())
-    asyncio.async(rbc.motor_control(0, 1, 60))
-    asyncio.async(rbc.motor_control(1, 1, 60))
+    asyncio.ensure_future(rbc.motor_control(0, 1, 60))
+    asyncio.ensure_future(rbc.motor_control(1, 1, 60))
 
     while True:
         loop.run_until_complete(rbc.get_accel_data())

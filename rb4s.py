@@ -21,6 +21,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 import asyncio
 import json
 import webbrowser
+import argparse
+import signal
+import sys
+
 
 from autobahn.asyncio.websocket import WebSocketServerProtocol, \
     WebSocketServerFactory
@@ -29,7 +33,7 @@ from pymata_aio.pymata_core import PymataCore
 from redbot_controller import RedBotController
 
 
-# noinspection PyPep8Naming
+# noinspection PyPep8Naming,PyPep8
 class RB4S(WebSocketServerProtocol):
     rb_control = None
     my_core = None
@@ -70,7 +74,7 @@ class RB4S(WebSocketServerProtocol):
             else:
                 motor = self.rb_control.RIGHT_MOTOR
 
-            yield from self.rb_control.motor_control(motor, operation, speed)
+            asyncio.ensure_future(self.rb_control.motor_control(motor, operation, speed))
 
         # motor coast command
         elif client_cmd == "coast":
@@ -79,7 +83,7 @@ class RB4S(WebSocketServerProtocol):
                 motor = self.rb_control.LEFT_MOTOR
             else:
                 motor = self.rb_control.RIGHT_MOTOR
-            yield from self.rb_control.motor_control(motor, self.rb_control.COAST, 0)
+            asyncio.ensure_future(self.rb_control.motor_control(motor, self.rb_control.COAST, 0))
 
         # motor brake command
         elif client_cmd == "brake":
@@ -88,41 +92,69 @@ class RB4S(WebSocketServerProtocol):
                 motor = self.rb_control.LEFT_MOTOR
             else:
                 motor = self.rb_control.RIGHT_MOTOR
-            yield from self.rb_control.motor_control(motor, self.rb_control.BRAKE, 0)
+            asyncio.ensure_future(self.rb_control.motor_control(motor, self.rb_control.BRAKE, 0))
 
         # tone generator
         elif client_cmd == "tone":
             frequency = int(cmd_dict.get('frequency'))
             duration = int(cmd_dict.get('duration'))
-            yield from self.rb_control.play_tone(frequency, duration)
+            asyncio.ensure_future(self.rb_control.play_tone(frequency, duration))
 
         # led control
         elif client_cmd == "led":
             if cmd_dict.get('state') == 'On':
-                yield from self.rb_control.set_led(1)
+                asyncio.ensure_future(self.rb_control.set_led(1))
             else:
-                yield from self.rb_control.set_led(0)
+                asyncio.ensure_future(self.rb_control.set_led(0))
 
         elif client_cmd == 'shutdown':
-            yield from self.rb_control.motor_control(self.rb_control.LEFT_MOTOR, self.rb_control.COAST, 0)
-            yield from self.rb_control.motor_control(self.rb_control.RIGHT_MOTOR, self.rb_control.COAST, 0)
-            yield from self.my_core.shutdown()
+            asyncio.ensure_future(self.rb_control.motor_control(self.rb_control.LEFT_MOTOR, self.rb_control.COAST, 0))
+            asyncio.ensure_future(self.rb_control.motor_control(self.rb_control.RIGHT_MOTOR, self.rb_control.COAST, 0))
+            asyncio.ensure_future(self.my_core.shutdown())
 
         elif client_cmd == 'ready':
             print('connected to Scratch_X page')
+            asyncio.ensure_future(self.rb_control.get_accel_data())
 
         else:
             print("unknown command from scratch: " + client_cmd)
 
     def onClose(self, wasClean, code, reason):
         print("WebSocket connection closed: {0}".format(reason))
-        yield from self.rb_control.motor_control(self.rb_control.LEFT_MOTOR, self.rb_control.COAST, 0)
-
-        yield from self.rb_control.motor_control(self.rb_control.RIGHT_MOTOR, self.rb_control.COAST, 0)
-        yield from self.my_core.shutdown()
-
+        aloop = asyncio.get_event_loop()
+        aloop.run_until_complete(self.rb_control.motor_control(self.rb_control.LEFT_MOTOR, self.rb_control.COAST, 0))
+        aloop.run_until_complete((self.rb_control.RIGHT_MOTOR, self.rb_control.COAST, 0))
+        aloop.run_until_complete(self.my_core.shutdown())
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    # noinspection PyPep8
+    parser.add_argument("-comport", dest="com", default="None", help="Arduino COM port")
+    # noinspection PyPep8
+    parser.add_argument("-wait", dest="wait", default="2", help="Arduino wait time")
+    # noinspection PyPep8
+    parser.add_argument("-ipAddr", dest="ip_addr", default="None", help="Arduino IP Address (WiFly)")
+    # noinspection PyPep8
+    parser.add_argument("-ipPort", dest="ip_port", default="2000", help="Arduino IP port (WiFly)")
+    # noinspection PyPep8,PyPep8
+    parser.add_argument("-handshake", dest="handshake", default="*HELLO*", help="IP Device Handshake String (WiFly)")
+
+    args = parser.parse_args()
+    if args.com == "None":
+        com = None
+    else:
+        com = args.com
+
+    wait = int(args.wait)
+
+    if args.ip_addr == "None":
+        ip_addr = None
+    else:
+        ip_addr = args.ip_addr
+
+    ip_port = args.ip_port
+
+    handshake = args.handshake
 
     factory = WebSocketServerFactory("ws://127.0.0.1:9000", debug=False)
     factory.protocol = RB4S
@@ -132,7 +164,9 @@ if __name__ == '__main__':
     server = loop.run_until_complete(coro)
 
     loop = asyncio.get_event_loop()
-    my_core = PymataCore()
+
+    my_core = PymataCore(arduino_wait=wait, com_port=com, ip_address=ip_addr,
+                         ip_port=ip_port, ip_handshake=handshake)
 
     rbc = RedBotController(my_core)
 
@@ -145,13 +179,26 @@ if __name__ == '__main__':
     url = "http://scratchx.org/?url=http://MrYsLab.github.io/rb4s/rb4s.js"
     webbrowser.open(url, new=new)
 
+    # Signal handler to trap control C
+    # noinspection PyUnusedLocal
+    def _signal_handler(sig, frame):
+        print('\nYou pressed Ctrl+C')
+        loop.run_until_complete(my_core.shutdown())
+
+    signal.signal(signal.SIGINT, _signal_handler)
+    signal.signal(signal.SIGTERM, _signal_handler)
+
+    # add SIGALRM if not platform is not windows
+    if not sys.platform.startswith('win32'):
+        signal.signal(signal.SIGALRM, _signal_handler)
+
+    # noinspection PyBroadException
     try:
         while True:
             loop.run_until_complete(rbc.get_accel_data())
             loop.run_until_complete(asyncio.sleep(.1))
         loop.run_forever()
-    except KeyboardInterrupt:
+    except BaseException:
         pass
-    finally:
-        server.close()
-        loop.close()
+        sys.exit()
+
